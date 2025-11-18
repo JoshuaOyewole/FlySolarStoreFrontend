@@ -73,7 +73,7 @@ export default function ShopLayout1({ children }) {
 
       <Sticky fixedOn={0} scrollDistance={300}>
         <Header mobileHeader={MOBILE_VERSION_HEADER}>
-          <Box display="flex" minWidth={100} alignItems="center">
+          {/* <Box display="flex" minWidth={100} alignItems="center">
             <Link href="/">
               <LazyImage
                 priority
@@ -85,7 +85,7 @@ export default function ShopLayout1({ children }) {
                 sx={{ objectFit: "contain" }}
               />
             </Link>
-          </Box>
+          </Box> */}
           <Box display="flex" minWidth={100} alignItems="center">
             <Link href="/">
               <LazyImage

@@ -3,6 +3,8 @@
 import Chip from "@mui/material/Chip";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
+
+
 export const StyledRoot = styled("div", {
   shouldForwardProp: prop => prop !== "bgColor"
 })(({
@@ -12,8 +14,17 @@ export const StyledRoot = styled("div", {
   fontSize: 12,
   paddingBlock: 10,
   color: theme.palette.secondary.contrastText,
-  background: bgColor || theme.palette.grey[800]
+  background: bgColor || theme.palette.grey[800],
+  //Add a media query here for screen sizes smaller than 'sm'
+  [theme.breakpoints.down("sm")]: {
+    display: "none"
+  }
+
+
+
+
 }));
+
 export const StyledContainer = styled(Container)(() => ({
   height: "100%",
   display: "flex",
