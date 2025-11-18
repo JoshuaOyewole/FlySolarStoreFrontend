@@ -8,6 +8,8 @@ import Truck from "./Truck";
 import CreditCardVerified from "./CreditCardVerified";
 import Shield from "./Shield";
 import CustomerService from "./CustomerService";
+import Trash from "./Trash";
+import Search from "./Search";
 
 
 const appIcons = {
@@ -20,7 +22,9 @@ const appIcons = {
   Truck,
   CreditCardVerified,
   Shield,
-  CustomerService
+  CustomerService,
+  Trash,
+  Search
 }
 
 export default appIcons;

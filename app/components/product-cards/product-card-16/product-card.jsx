@@ -3,14 +3,14 @@ import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 
 // GLOBAL CUSTOM COMPONENTS
-import LazyImage from "components/LazyImage";
+import LazyImage from "../../LazyImage";
 
 // LOCAL CUSTOM COMPONENTS
 import AddToCart from "./add-to-cart";
 import DiscountChip from "../discount-chip";
 
 // CUSTOM UTILS LIBRARY FUNCTIONS
-import { calculateDiscount, currency } from "lib";
+import { calculateDiscount, currency } from "../../../lib";
 
 // STYLED COMPONENTS
 import { PriceText, StyledRoot } from "./styles";

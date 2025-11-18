@@ -8,7 +8,7 @@ import Add from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 
 // GLOBAL CUSTOM HOOKS
-import useCart from "hooks/useCart";
+import useCart from "../../../../hooks/useCart";
 
 // CUSTOM DATA MODEL
 

@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import RemoveRedEye from "@mui/icons-material/RemoveRedEye";
 
 // GLOBAL CUSTOM COMPONENTS
-import LazyImage from "components/LazyImage";
+import LazyImage from "../../LazyImage";
 
 // LOCAL CUSTOM COMPONENTS
 import AddToCart from "./add-to-cart";

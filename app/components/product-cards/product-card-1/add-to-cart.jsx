@@ -6,15 +6,7 @@ import Button from "@mui/material/Button";
 import Add from "@mui/icons-material/Add";
 
 // GLOBAL CUSTOM HOOKS
-import useCart from "hooks/useCart";
-
-// CUSTOM DATA MODEL
-
-
-// ==============================================================
-
-
-// ==============================================================
+import useCart from "../../../hooks/useCart";
 
 export default function AddToCart({
   product

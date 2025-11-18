@@ -2,10 +2,10 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 // GLOBAL CUSTOM COMPONENTS
-import FlexBox from "components/flex-box/flex-box";
+import FlexBox from "../flex-box/flex-box";
 
 // CUSTOM UTILS LIBRARY FUNCTIONS
-import { calculateDiscount, currency } from "lib";
+import { calculateDiscount, currency } from "../../lib";
 
 
 // ==============================================================

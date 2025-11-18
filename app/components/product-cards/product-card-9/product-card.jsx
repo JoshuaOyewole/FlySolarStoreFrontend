@@ -3,7 +3,7 @@ import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 
 // GLOBAL CUSTOM COMPONENTS
-import LazyImage from "components/LazyImage";
+import LazyImage from "../../LazyImage";
 
 // LOCAL CUSTOM COMPONENTS
 import DiscountChip from "../discount-chip";
