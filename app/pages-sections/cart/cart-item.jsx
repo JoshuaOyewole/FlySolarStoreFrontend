@@ -73,8 +73,8 @@ export default function CartItem({
           </QuantityButton>
         </div>
 
-        <Typography noWrap variant="body1" fontSize={16} fontWeight={600}>
-          {currency(price * qty)}
+        <Typography variant="body1" fontSize={16} fontWeight={600} sx={{ whiteSpace: "nowrap" }}>
+          {currency(price * qty, 0)}
         </Typography>
 
         <IconButton className="remove-item" size="small" onClick={handleCartAmountChange(0)}>

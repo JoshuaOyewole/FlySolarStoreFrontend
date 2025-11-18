@@ -1,27 +1,13 @@
 "use client";
 
-import { createContext, useMemo, useReducer, useEffect } from "react";
+import { createContext, useMemo, useReducer, useEffect, useState } from "react";
 
 // =================================================================================
 
 // =================================================================================
 
 const INITIAL_CART = [];
-
-// Get initial state from localStorage if available
-const getInitialState = () => {
-  if (typeof window !== "undefined") {
-    try {
-      const savedCart = localStorage.getItem("flysolar_cart");
-      if (savedCart) {
-        return { cart: JSON.parse(savedCart) };
-      }
-    } catch (error) {
-      console.error("Error loading cart from localStorage:", error);
-    }
-  }
-  return { cart: INITIAL_CART };
-};
+const INITIAL_STATE = { cart: INITIAL_CART };
 
 
 // ==============================================================
@@ -73,27 +59,51 @@ const reducer = (state, action) => {
       }
   }
 };
+
 export default function CartProvider(props) {
   const { children } = props || {};
-  const [state, dispatch] = useReducer(reducer, getInitialState());
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+  const [isHydrated, setIsHydrated] = useState(false);
 
-  // Save cart to localStorage whenever it changes
+  // Load cart from localStorage after hydration
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    try {
+      const savedCart = localStorage.getItem("flysolar_cart");
+      if (savedCart) {
+        const parsedCart = JSON.parse(savedCart);
+        if (parsedCart && parsedCart.length > 0) {
+          // Restore each item to the cart
+          parsedCart.forEach((item) => {
+            dispatch({
+              type: "CHANGE_CART_AMOUNT",
+              payload: item,
+            });
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error loading cart from localStorage:", error);
+    }
+    setIsHydrated(true);
+  }, []);
+
+  // Save cart to localStorage whenever it changes (only after hydration)
+  useEffect(() => {
+    if (isHydrated) {
       try {
         localStorage.setItem("flysolar_cart", JSON.stringify(state.cart));
       } catch (error) {
         console.error("Error saving cart to localStorage:", error);
       }
     }
-  }, [state.cart]);
+  }, [state.cart, isHydrated]);
 
   const contextValue = useMemo(
     () => ({
       state,
       dispatch,
     }),
-    [state, dispatch]
+    [state]
   );
 
   return (

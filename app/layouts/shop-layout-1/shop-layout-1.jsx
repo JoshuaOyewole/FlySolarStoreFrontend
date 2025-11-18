@@ -18,7 +18,7 @@ import { NavigationList } from "../../components/navbar";
 //import { MobileMenu } from ".././components/mobile-navbar";
 //import { SecondaryHeader } from "../../components/secondary-header";
 import { MobileNavigationBar } from "../../components/mobile-navigation";
-//import { SearchInput1, SearchInput2 } from "../../components/search-box";
+import { SearchInput1, SearchInput2 } from "../../components/search-box";
 import {
   Topbar,
   //TopbarLanguageSelector,
@@ -28,10 +28,8 @@ import {
   Header,
   HeaderCart,
   HeaderLogin,
-  /*   HeaderCart,
-  
   MobileHeader,
-  HeaderSearch, */
+  HeaderSearch,
 } from "../../components/header";
 import { header, footer, topbar, mobileNavigation } from "../../lib/data";
 import LazyImage from "../../components/LazyImage";
@@ -46,20 +44,20 @@ export default function ShopLayout1({ children }) {
       width="100%"
     >
       {/* <MobileHeader.Left>
-          <MobileMenu navigation={header.navigation} />
-        </MobileHeader.Left> */}
+        <MobileMenu navigation={header.navigation} />
+      </MobileHeader.Left> */}
 
       <Link href="/">
         <Image width={60} height={44} src={mobileNavigation.logo} alt="logo" />
       </Link>
-      {/* <Box display="flex" justifyContent="end" flex={1}>
+      <Box display="flex" justifyContent="end" flex={1}>
         <HeaderSearch>
           <SearchInput2 />
         </HeaderSearch>
 
         <HeaderLogin />
         <HeaderCart />
-      </Box> */}
+      </Box>
     </Box>
   );
   return (
