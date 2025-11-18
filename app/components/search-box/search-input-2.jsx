@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 // MUI
@@ -10,7 +10,8 @@ import TextField from "@mui/material/TextField";
 
 // STYLED COMPONENT
 import { SearchOutlinedIcon } from "./styles";
-export function SearchInput2() {
+
+function SearchInput2Content() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [search, setSearch] = useState("");
@@ -47,4 +48,38 @@ export function SearchInput2() {
       input: INPUT_PROPS
     }} />
     </Box>;
+}
+
+export function SearchInput2() {
+  return (
+    <Suspense
+      fallback={
+        <Box position="relative" flex="1 1 0" maxWidth={670} mx="auto">
+          <TextField
+            fullWidth
+            variant="outlined"
+            placeholder="Searching for..."
+            disabled
+            slotProps={{
+              input: {
+                sx: {
+                  border: 0,
+                  height: 44,
+                  paddingRight: 0,
+                  overflow: "hidden",
+                  backgroundColor: "grey.50",
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    border: 0,
+                  },
+                },
+                startAdornment: <SearchOutlinedIcon fontSize="small" />,
+              },
+            }}
+          />
+        </Box>
+      }
+    >
+      <SearchInput2Content />
+    </Suspense>
+  );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState, Suspense } from "react";
 
 // MUI
 import Box from "@mui/material/Box";
@@ -15,15 +15,15 @@ import Search from "@mui/icons-material/Search";
 
 // GLOBAL CUSTOM COMPONENTS
 import FlexBetween from "../../flex-box/flex-between";
+
 // ==================================================
-export function HeaderSearch({
-  children
-}) {
+function HeaderSearchContent({ children }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentUrl = useRef(`${pathname}?${searchParams}`);
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
+  
   useEffect(() => {
     const newUrl = `${pathname}?${searchParams}`;
     if (currentUrl.current !== newUrl) {
@@ -54,4 +54,16 @@ export function HeaderSearch({
         </Box>
       </Drawer>
     </Fragment>;
+}
+
+export function HeaderSearch({ children }) {
+  return (
+    <Suspense fallback={
+      <IconButton>
+        <Search />
+      </IconButton>
+    }>
+      <HeaderSearchContent>{children}</HeaderSearchContent>
+    </Suspense>
+  );
 }
