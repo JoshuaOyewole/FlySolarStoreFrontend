@@ -7,7 +7,11 @@ const nextConfig = {
   },
   experimental: {
     optimizeCss: false,
-  }
+  },
+  // Disable console logs in production
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
 };
 
 export default nextConfig;
