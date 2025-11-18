@@ -1,4 +1,5 @@
 //import type { NextConfig } from "next";
+const path = require("path");
 
 const nextConfig = {
   /* config options here */
@@ -7,6 +8,21 @@ const nextConfig = {
   },
   experimental: {
     optimizeCss: false,
+  },
+  turbopack: {
+    rules: {
+      "*.svg": {
+        loaders: [
+          {
+            loader: "@svgr/webpack",
+            options: {
+              icon: true,
+            },
+          },
+        ],
+        as: "*.js",
+      },
+    },
   },
 };
 
