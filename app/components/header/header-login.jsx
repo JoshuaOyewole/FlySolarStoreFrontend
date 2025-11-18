@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import SvgIcon from "@mui/material/SvgIcon";
 import IconButton from "@mui/material/IconButton";
+
 export function HeaderLogin() {
-  return <IconButton LinkComponent={Link} href="/login">
+  return (
+    <IconButton component={Link} href="/login">
       <SvgIcon fontSize="small">
         <svg viewBox="0 0 24 24">
           <g fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -12,5 +16,6 @@ export function HeaderLogin() {
           </g>
         </svg>
       </SvgIcon>
-    </IconButton>;
+    </IconButton>
+  );
 }

@@ -1116,6 +1116,9 @@ const carouselData = [
     __v: 0,
   },
   {
+    backgroundColor: "#fff3cd",
+    buttonLink: "/products/bags",
+    buttonText: "Shop Now",
     createdAt: "2025-10-14T12:15:17.973Z",
     ctr: "0.00",
     description: "Get Free Shipping on all orders over $99.00",

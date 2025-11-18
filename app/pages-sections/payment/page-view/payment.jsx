@@ -12,14 +12,14 @@ export default function PaymentPageView() {
       md: 8,
       xs: 12
     }}>
-      {/*   <PaymentForm /> */}
+       <PaymentForm />
       </Grid>
 
       <Grid size={{
       md: 4,
       xs: 12
     }}>
-       {/*  <PaymentSummary /> */}
+       <PaymentSummary />
       </Grid>
     </Grid>;
 }

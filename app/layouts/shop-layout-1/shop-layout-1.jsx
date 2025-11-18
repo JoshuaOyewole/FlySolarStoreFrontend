@@ -26,8 +26,10 @@ import {
 } from "../../components/topbar";
 import {
   Header,
-/*   HeaderCart,
+  HeaderCart,
   HeaderLogin,
+  /*   HeaderCart,
+  
   MobileHeader,
   HeaderSearch, */
 } from "../../components/header";
@@ -103,8 +105,8 @@ export default function ShopLayout1({ children }) {
           <NavigationList navigation={header.navigation} />
 
           <div className="flex items-center">
-            {/* <HeaderLogin />
-            <HeaderCart /> */}
+            <HeaderCart />
+            <HeaderLogin />
           </div>
         </Header>
       </Sticky>

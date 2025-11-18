@@ -29,7 +29,7 @@ import ShopLayout1 from "./layouts/shop-layout-1";
 
 // ==============================================================
 
-export default async function RootLayout({ children, modal }) {
+export default function RootLayout({ children, modal }) {
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <body id="body" className={geistSans.className}>

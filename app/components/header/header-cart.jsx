@@ -8,7 +8,7 @@ import SvgIcon from "@mui/material/SvgIcon";
 import IconButton from "@mui/material/IconButton";
 
 // GLOBAL CUSTOM HOOK
-import useCart from "../../contexts/CartContext";
+import useCart from "../../hooks/useCart";
 export function HeaderCart() {
   const {
     state
