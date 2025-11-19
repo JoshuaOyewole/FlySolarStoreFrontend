@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
-import { ProfileEditPageView } from "pages-sections/customer-dashboard/profile/page-view";
+import { ProfileEditPageView } from "../../../pages-sections/customer/profile/page-view";
+import users from "../../../data/market-1/data";
 
-// API FUNCTIONS
-import api from "utils/__api__/users";
-export async function generateMetadata() {
-  const user = await api.getUser();
+export function generateMetadata() {
+  const user = users.users.find[0];
+  console.log("USER PROFILE EDIT ", user);
   if (!user) {
     return notFound();
   }
@@ -12,16 +12,28 @@ export async function generateMetadata() {
   return {
     title: name + " - No 1 for Solar Products Online Store",
     description: "FlySolarStore is a React Next.js E-commerce template.",
-    authors: [{
-      name: "Orisfina Tech",
-      
-      url: "https://orisfinatech.com.ng"
-    }],
-    keywords: ["solar", "solar panels", "inverters", "batteries", "solar accessories", "renewable energy", "sustainable living", "Flysolarstore"],
+    authors: [
+      {
+        name: "Orisfina Tech",
+
+        url: "https://orisfinatech.com.ng",
+      },
+    ],
+    keywords: [
+      "solar",
+      "solar panels",
+      "inverters",
+      "batteries",
+      "solar accessories",
+      "renewable energy",
+      "sustainable living",
+      "Flysolarstore",
+    ],
   };
 }
-export default async function ProfileEdit() {
-  const user = await api.getUser();
+export default function ProfileEdit() {
+  const user = users.users.find[0];
+  console.log("USER PROFILE EDIT ", user);
   if (!user) {
     return notFound();
   }
