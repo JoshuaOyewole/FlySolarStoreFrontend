@@ -815,7 +815,7 @@ const categoryMenus = [
   },
 ];
 export const header = {
-  logo: "/assets/images/logo2.svg",
+  logo: "/assets/images/logo_new.png",
   navigation: [
     {
       title: "Home",
@@ -941,7 +941,9 @@ export const header = {
         },
       ],
     }, */
-    {
+
+    //BRING THIS BACK LATER
+    /* {
       megaMenu: false,
       megaMenuWithSub: false,
       title: "Shop",
@@ -995,6 +997,10 @@ export const header = {
           url: "/wish-list",
         },
       ],
+    }, */
+    {
+      title: "Products",
+      url: "/products",
     },
     {
       title: "About",
@@ -1066,7 +1072,7 @@ const languageOptions = {
 export const footer = {
   appStoreUrl: "#",
   playStoreUrl: "#",
-  logo: "/assets/images/logo.svg",
+  logo: "/assets/images/logo_new.png",
   contact: footerContact,
   about: footerAboutLinks,
   socials: footerSocialLinks,
@@ -1090,9 +1096,9 @@ const mobileNavigationData = [
     badge: false,
   },
   {
-    title: "Category",
+    title: "Products",
     icon: "CategoryOutlined",
-    href: "/mobile-categories",
+    href: "/products",
     badge: false,
   },
   {
@@ -1138,5 +1144,5 @@ const mobileNavigationTwoData = [
 export const mobileNavigation = {
   version1: mobileNavigationData,
   version2: mobileNavigationTwoData,
-  logo: "/assets/images/bazaar-black-sm.svg",
+  logo: "/assets/images/Bazaar-black-sm.svg",
 };

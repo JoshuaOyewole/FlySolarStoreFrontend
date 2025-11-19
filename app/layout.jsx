@@ -25,7 +25,7 @@ import QueryProvider from "./components/Providers/QueryProvider";
 // IMPORT i18n SUPPORT FILE
 //import "i18n";
 import { ToastContainer } from "react-toastify";
-import ShopLayout1 from "./layouts/shop-layout-1";
+import LayoutWrapper from "./LayoutWrapper";
 
 // ==============================================================
 
@@ -35,13 +35,13 @@ export default function RootLayout({ children, modal }) {
       <body id="body" className={geistSans.className}>
         <CartProvider>
           <ThemeProvider>
-            <ShopLayout1>
+            <LayoutWrapper>
               <QueryProvider>
                 {modal}
                 {children}
               </QueryProvider>
               <ProgressBar />
-            </ShopLayout1>
+            </LayoutWrapper>
           </ThemeProvider>
         </CartProvider>
         <ToastContainer />

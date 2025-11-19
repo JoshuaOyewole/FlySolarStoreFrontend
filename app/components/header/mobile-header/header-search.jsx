@@ -42,7 +42,7 @@ function HeaderSearchContent({ children }) {
         <Box width="auto" padding={2} height="100vh">
           <FlexBetween mb={1}>
             <Typography variant="h6" color="text.secondary">
-              Search to Bazaar
+              Search to FlySolarStore
             </Typography>
 
             <IconButton onClick={handleClose}>

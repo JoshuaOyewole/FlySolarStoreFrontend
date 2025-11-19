@@ -126,7 +126,7 @@ export default function ShopLayout1({ children }) {
       <Footer1>
         <Footer1.Brand>
           <Link href="/">
-            <Image src={footer.logo} alt="logo" width={105} height={50} />
+            <Image src={footer.logo} alt="logo" width={255} height={70} />
           </Link>
 
           <Typography

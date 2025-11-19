@@ -7,7 +7,7 @@ import Menu from "@mui/material/Menu";
 
 // ===============================================================
 
-export default function BazaarMenu({
+export default function FlySolarStoreMenu({
   open,
   sx,
   handler,
