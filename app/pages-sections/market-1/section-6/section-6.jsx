@@ -13,7 +13,7 @@ export default async function Section6() {
   
   if (!product || product.length === 0) return null;
   return <Container>
-      <Typography variant="h2" fontWeight={700} fontSize={{
+      <Typography variant="h2" color="#CC5500" fontWeight={700} fontSize={{
       sm: 32,
       xs: 27
     }}>

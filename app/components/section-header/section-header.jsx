@@ -13,10 +13,11 @@ import { FlexBetween } from "../flex-box";
 export function SectionHeader({
   title,
   seeMoreLink,
+  color = "text.primary",
   linkText = "Show More"
 }) {
   return <FlexBetween mb={3} gap={1} flexWrap="wrap">
-      <Typography variant="h2" fontWeight={700} fontSize={{
+      <Typography variant="h2" color={color} fontWeight={700} fontSize={{
       sm: 32,
       xs: 27
     }}>

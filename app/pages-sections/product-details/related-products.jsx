@@ -11,9 +11,10 @@ export default function RelatedProducts({
 // IF NO PRODUCTS RETURN NULL
   if (!products || !products.length) return null;
   return <div className="mb-4 mt-10!">
-      <Typography variant="h3" sx={{
-      mb: 3
-    }}>
+      <Typography 
+      variant="h3" 
+      sx={{ mb: 3}}
+      color="#CC5500">
         Related Products
       </Typography>
 

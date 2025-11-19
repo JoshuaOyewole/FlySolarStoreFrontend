@@ -19,7 +19,8 @@ export default function CarouselCard1({
   imgUrl,
   buttonText,
   description,
-  buttonColor = "primary",
+  buttonColor ="#CC5500",
+  //buttonColor = "primary",
 }) {
   return (
     <StyledRoot>
@@ -31,14 +32,15 @@ export default function CarouselCard1({
             xs: 12,
           }}
         >
-          <h1 className="title">{title}</h1>
+          <h1 className="title" style={{color:"#CC5500"}}>{title}</h1>
           <p className="description">{description}</p>
 
           <Button
             size="large"
             disableElevation
             variant="contained"
-            color={buttonColor}
+            //color={buttonColor}
+            style={{backgroundColor:buttonColor, color:"#fff"}}
             LinkComponent={Link}
             href="/products/search"
             className="button-link"

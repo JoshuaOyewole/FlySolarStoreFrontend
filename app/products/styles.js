@@ -5,7 +5,8 @@ import { styled } from "@mui/material/styles";
 // HERO SECTION
 export const HeroSection = styled(Box)(({ theme }) => ({
   padding: theme.spacing(8, 0, 6),
-  background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+  //background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+  backgroundColor: "#CC5500",
   color: "white",
   position: "relative",
   overflow: "hidden",
@@ -21,6 +22,7 @@ export const HeroSection = styled(Box)(({ theme }) => ({
   },
   [theme.breakpoints.up("md")]: {
     padding: theme.spacing(12, 0, 8),
+    background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
   },
 }));
 

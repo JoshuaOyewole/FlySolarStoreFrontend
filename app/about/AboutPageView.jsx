@@ -156,6 +156,7 @@ export default function AboutPageView() {
             <Grid size={{ xs: 12, md: 6 }}>
               <Typography
                 variant="h2"
+                color="#CC5500"
                 sx={{
                   fontSize: { xs: 28, sm: 36 },
                   fontWeight: 700,
@@ -220,7 +221,7 @@ export default function AboutPageView() {
                     fontSize: { xs: 24, sm: 28 },
                     fontWeight: 700,
                     mb: 3,
-                    color: "primary.main",
+                    color: "#CC5500",
                   }}
                 >
                   Our Mission
@@ -249,7 +250,7 @@ export default function AboutPageView() {
                     fontSize: { xs: 24, sm: 28 },
                     fontWeight: 700,
                     mb: 3,
-                    color: "secondary.main",
+                    color: "#CC5500",
                   }}
                 >
                   Our Vision
@@ -280,6 +281,7 @@ export default function AboutPageView() {
           <SectionHeaderBox>
             <Typography
               variant="h2"
+              color="#CC5500"
               sx={{
                 fontSize: { xs: 28, sm: 36 },
                 fontWeight: 700,
@@ -341,6 +343,7 @@ export default function AboutPageView() {
           <CTAContentBox>
             <Typography
               variant="h2"
+              color="#CC5500"
               sx={{
                 fontSize: { xs: 28, sm: 36 },
                 fontWeight: 700,
@@ -392,7 +395,7 @@ export default function AboutPageView() {
                 size="large"
                 sx={{
                   borderColor: "white",
-                  backgroundColor: "primary.main",
+                  backgroundColor: "#CC5500",
                   color: "white",
                   px: 4,
                   py: 1.5,

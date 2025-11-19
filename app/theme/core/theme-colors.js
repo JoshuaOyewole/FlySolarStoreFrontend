@@ -1,38 +1,36 @@
-
 // =================================================================
-
 
 // =================================================================
 
 export const grey = {
   50: "#FAFAFA",
-  
-// Brightest
+
+  // Brightest
   100: "#F5F5F5",
-  
-// Soft background
+
+  // Soft background
   200: "#E5E7EB",
-  
-// Line Stroke
+
+  // Line Stroke
   300: "#D1D5DB",
   400: "#9CA3AF",
-  
-// Border - limit as bg
+
+  // Border - limit as bg
   500: "#6B7280",
   600: "#4B5563",
-  
-// Low Priority Text
+
+  // Low Priority Text
   700: "#374151",
   800: "#1F2937",
-  
-// Paragraph
+
+  // Paragraph
   900: "#111827",
-  
-// Main Text
+
+  // Main Text
   A100: "#FFFFFF",
   A200: "#F9FAFB",
   A400: "#D1D5DB",
-  A700: "#1F2937"
+  A700: "#1F2937",
 };
 export const primary = {
   50: "#FCE9EC",
@@ -48,7 +46,8 @@ export const primary = {
   main: "#D23F57",
   light: "#FCE9EC",
   dark: "#9D2538",
-  contrastText: "#FFFFFF"
+  contrastText: "#FFFFFF",
+  orange: "#CC5500",
 };
 export const secondary = {
   100: "#e8e8ee",
@@ -63,7 +62,7 @@ export const secondary = {
   main: "#0F3460",
   dark: "#0c0e30",
   light: "#141850",
-  contrastText: "#FFFFFF"
+  contrastText: "#FFFFFF",
 };
 export const error = {
   100: "#FFEAEA",
@@ -78,7 +77,7 @@ export const error = {
   main: "#E94560",
   dark: "#FF2929",
   light: "#FFEAEA",
-  contrastText: "#FFFFFF"
+  contrastText: "#FFFFFF",
 };
 export const success = {
   50: "#F0FDF4",
@@ -94,7 +93,7 @@ export const success = {
   main: "#00C950",
   dark: "#00A63E",
   light: "#7BF1A8",
-  contrastText: "#FFFFFF"
+  contrastText: "#FFFFFF",
 };
 export const blue = {
   50: "#EFF6FF",
@@ -110,7 +109,7 @@ export const blue = {
   main: "#2B7FFF",
   dark: "#155DFC",
   light: "#EAF7FE",
-  contrastText: "#FFFFFF"
+  contrastText: "#FFFFFF",
 };
 export const marron = {
   50: "#FAF0F1",
@@ -126,7 +125,7 @@ export const marron = {
   main: "#B86667",
   dark: "#A74E4F",
   light: "#FAF0F1",
-  contrastText: "#FFFFFF"
+  contrastText: "#FFFFFF",
 };
 export const paste = {
   50: "#F0FAFA",
@@ -142,7 +141,7 @@ export const paste = {
   main: "#68C0C0",
   dark: "#4BB4B4",
   light: "#F0FAFA",
-  contrastText: "#FFFFFF"
+  contrastText: "#FFFFFF",
 };
 export const orange = {
   50: "#FEF1E3",
@@ -158,7 +157,7 @@ export const orange = {
   main: "#FA8C16",
   dark: "#C86904",
   light: "#FEF1E3",
-  contrastText: "#FFFFFF"
+  contrastText: "#FFFFFF",
 };
 export const bluish = {
   50: "#e6f7f7",
@@ -174,7 +173,7 @@ export const bluish = {
   main: "#4BB4B4",
   dark: "#008783",
   light: "#e6f7f7",
-  contrastText: "#FFFFFF"
+  contrastText: "#FFFFFF",
 };
 export const warning = {
   50: "#FFF6DC",
@@ -190,7 +189,7 @@ export const warning = {
   main: "#FFB82A",
   dark: "#C88C1D",
   light: "#FFF6DC",
-  contrastText: "#FFFFFF"
+  contrastText: "#FFFFFF",
 };
 export const gold = {
   50: "#FFF8DC",
@@ -206,12 +205,12 @@ export const gold = {
   main: "#F4B500",
   dark: "#805900",
   light: "#FFF8DC",
-  contrastText: "#FFFFFF"
+  contrastText: "#FFFFFF",
 };
 export const dark = {
   ...grey,
   main: grey[900],
   dark: grey[900],
   light: grey[100],
-  contrastText: "#fff"
+  contrastText: "#fff",
 };

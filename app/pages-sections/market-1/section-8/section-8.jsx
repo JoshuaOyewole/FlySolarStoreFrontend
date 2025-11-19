@@ -11,7 +11,7 @@ export default async function Section8() {
   const blogs = articles.articles;
   if (!blogs || blogs.length === 0) return null;
   return <Container>
-      <SectionHeader title="Read our blogs" seeMoreLink="#" />
+      <SectionHeader title="Read our blogs" seeMoreLink="#" color="#CC5500"/>
 
       <Grid container spacing={3}>
         {blogs.map(item => <Grid size={{

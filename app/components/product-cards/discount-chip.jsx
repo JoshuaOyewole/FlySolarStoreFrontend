@@ -13,6 +13,7 @@ const StyledChip = styled(Chip, {
   zIndex: 1,
   top: "15px",
   left: "15px",
+  backgroundColor: "#CC5500",
   paddingLeft: 3,
   paddingRight: 3,
   fontWeight: 500,

@@ -62,7 +62,7 @@ export default function ShopLayout1({ children }) {
   );
   return (
     <Fragment>
-      <Topbar>
+      <Topbar bgColor={"#CC5500"}>
         <Topbar.Left label={topbar.label} title={topbar.title} />
 
         <Topbar.Right>

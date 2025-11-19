@@ -9,9 +9,9 @@ const categories = [
   { title: "Toys", value: "toys" },
 ];
 const footerContact = {
-  phone: "+2347032054367",
+  phone: "08167360193",
   email: "contact@flysolarstore.com",
-  address: "No 12, Adeola Odeku Street, Victoria Island, Lagos Nigeria",
+  address: "Shop B427 Upstairs, Alaba International Market, Lagos.",
 };
 const footerAboutLinks = [
 

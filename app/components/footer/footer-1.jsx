@@ -11,7 +11,8 @@ import Container from "@mui/material/Container";
 export function Footer1({
   children,
   color = "white",
-  bgcolor = "grey.900",
+  bgcolor = "#CC5500",
+  /* bgcolor = "grey.900", */
   mb = {
     lg: 0,
     xs: 8

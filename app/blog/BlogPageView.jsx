@@ -117,7 +117,7 @@ export default function BlogPageView() {
   return (
     <Box>
       {/* HERO SECTION */}
-      <HeroSection>
+   {/*    <HeroSection>
         <Container maxWidth="lg">
           <Typography
             variant="h1"
@@ -144,7 +144,7 @@ export default function BlogPageView() {
             living, and renewable power solutions
           </Typography>
         </Container>
-      </HeroSection>
+      </HeroSection> */}
 
       {/* SEARCH AND CATEGORIES */}
       <SearchSection>
@@ -195,7 +195,7 @@ export default function BlogPageView() {
       </SearchSection>
 
       {/* FEATURED BLOG */}
-      <Box sx={{ py: { xs: 4, md: 6 } }}>
+   {/*    <Box sx={{ py: { xs: 4, md: 6 } }}>
         <Container maxWidth="lg">
           <Typography
             variant="h3"
@@ -273,13 +273,14 @@ export default function BlogPageView() {
             </Grid>
           </FeaturedBlogCard>
         </Container>
-      </Box>
+      </Box> */}
 
       {/* BLOG GRID */}
       <Box sx={{ py: { xs: 4, md: 6 }, backgroundColor: "grey.50" }}>
         <Container maxWidth="lg">
           <Typography
             variant="h3"
+            color="#CC5500"
             sx={{
               fontSize: { xs: 24, sm: 28, md: 32 },
               fontWeight: 700,

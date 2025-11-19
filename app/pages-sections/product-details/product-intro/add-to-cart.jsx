@@ -63,6 +63,7 @@ export default function AddToCart({ product }) {
     <Button
       color="primary"
       variant="contained"
+      style={{backgroundColor:"#CC5500", color:"#fff"}}
       loading={isLoading}
       onClick={handleAddToCart}
       sx={{

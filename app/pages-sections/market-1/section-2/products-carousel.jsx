@@ -66,7 +66,7 @@ export default function ProductsCarousel({
   });
   return <Box position="relative">
       <Heading>
-        <Typography variant="h2" fontWeight={700} fontSize={{
+        <Typography variant="h2" color="#CC5500" fontWeight={700} fontSize={{
         sm: 32,
         xs: 27
       }}>
