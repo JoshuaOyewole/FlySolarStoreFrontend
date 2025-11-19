@@ -81,7 +81,7 @@ export default function CheckoutForm() {
   const handleSubmitForm = handleSubmit(
     (values) => {
       console.log("Form submitted successfully:", values);
-      alert(JSON.stringify(values, null, 2));
+    //  alert(JSON.stringify(values, null, 2));
       router.push("/payment");
     },
     (errors) => {

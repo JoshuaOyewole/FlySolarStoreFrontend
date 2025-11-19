@@ -22,6 +22,7 @@ export default function CheckoutSummary() {
     state
   } = useCart();
   const total = state.cart.reduce((acc, item) => acc + item.price * item.qty, 0);
+
   return <Card elevation={0} sx={theme => ({
     p: 3,
     backgroundColor: theme.palette.grey[50],
@@ -30,7 +31,7 @@ export default function CheckoutSummary() {
       <ListItem title="Subtotal" value={total} />
    {/*    <ListItem title="Shipping" /> 
       <ListItem title="Tax" value={0} /> */}
-      <ListItem title="Discount" />
+      <ListItem title="Discount" value={"0"}/>
 
       <Divider sx={{
       my: 2

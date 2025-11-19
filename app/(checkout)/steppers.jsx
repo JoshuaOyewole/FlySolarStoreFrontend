@@ -55,11 +55,11 @@ const STEPPER_LIST = [{
   title: "Payment",
   disabled: false,
   path: "/payment"
-}, {
+}, /* {
   title: "Review",
   disabled: false,
   path: "/orders"
-}];
+} */];
 const PATH_TO_STEP = {
   "/cart": 0,
   "/orders": 3,
