@@ -6,13 +6,6 @@ import UserInfo from "../user-info";
 //import UserAnalytics from "../user-analytics";
 import DashboardHeader from "../../dashboard-header";
 
-// CUSTOM DATA MODEL
-
-
-// ============================================================
-
-
-// ============================================================
 
 export function ProfilePageView({
   user

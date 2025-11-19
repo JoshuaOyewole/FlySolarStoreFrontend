@@ -3,8 +3,7 @@ import { ProfileEditPageView } from "../../../pages-sections/customer/profile/pa
 import users from "../../../data/market-1/data";
 
 export function generateMetadata() {
-  const user = users.users.find[0];
-  console.log("USER PROFILE EDIT ", user);
+  const user = users.users[0];
   if (!user) {
     return notFound();
   }
@@ -32,8 +31,8 @@ export function generateMetadata() {
   };
 }
 export default function ProfileEdit() {
-  const user = users.users.find[0];
-  console.log("USER PROFILE EDIT ", user);
+  const user = users.users[0];
+ 
   if (!user) {
     return notFound();
   }

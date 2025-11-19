@@ -28,7 +28,7 @@ import {
   Header,
   HeaderCart,
   HeaderLogin,
-  MobileHeader,
+ // MobileHeader,
   HeaderSearch,
 } from "../../components/header";
 import { header, footer, topbar, mobileNavigation } from "../../lib/data";
@@ -93,7 +93,7 @@ export default function ShopLayout1({ children }) {
                 src={header.logo}
                 alt={"logo"}
                 width={105}
-                height={50}
+                height={70}
                 sizes="(max-width: 768px) 80px, 105px"
                 sx={{ objectFit: "contain" }}
               />
