@@ -3,7 +3,7 @@
 const nextConfig = {
   /* config options here */
   images: {
-    qualities: [25, 50, 75, 85],
+    qualities: [25, 50,70, 75, 85, 100],
   },
   experimental: {
     optimizeCss: false,

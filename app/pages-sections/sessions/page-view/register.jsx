@@ -96,7 +96,7 @@ export default function RegisterPageView() {
             </FlexBox>} />
       </div>
 
-      <Button fullWidth size="large" type="submit" color="primary" variant="contained" loading={isSubmitting}>
+      <Button fullWidth size="large" type="submit" style={{backgroundColor:"#CC5500"}} color="primary" variant="contained" loading={isSubmitting}>
         Create an Account
       </Button>
     </FormProvider>;

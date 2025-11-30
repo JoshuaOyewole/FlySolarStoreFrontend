@@ -129,6 +129,7 @@ export default function CheckoutForm() {
         href="/checkout"
         variant="contained"
         LinkComponent={Link}
+        style={{backgroundColor:"#ea580c"}}
       >
         Checkout Now
       </Button>

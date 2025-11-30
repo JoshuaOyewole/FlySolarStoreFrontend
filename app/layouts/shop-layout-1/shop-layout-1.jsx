@@ -95,7 +95,10 @@ export default function ShopLayout1({ children }) {
                 width={105}
                 height={70}
                 sizes="(max-width: 768px) 80px, 105px"
-                sx={{ objectFit: "contain" }}
+                sx={{ 
+                  objectFit: "contain",
+                  height: { xs: 70, lg: 60 }
+                }}
               />
             </Link>
           </Box>

@@ -66,7 +66,7 @@ export default function PaymentForm() {
           Back to checkout
         </Button>
 
-        <Button fullWidth size="large" type="submit" color="primary" href="/order-confirmation" variant="contained">
+        <Button fullWidth size="large" style={{backgroundColor:"#ea580c"}} type="submit" color="primary" href="/order-confirmation" variant="contained">
          Place Order
         </Button>
       </Stack>

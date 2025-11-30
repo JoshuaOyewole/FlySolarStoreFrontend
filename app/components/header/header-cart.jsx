@@ -14,7 +14,7 @@ export function HeaderCart() {
     state
   } = useCart();
   return <Badge badgeContent={state.cart.length} color="primary">
-      <IconButton LinkComponent={Link} href="/cart">
+      <IconButton component={Link} href="/mini-cart" scroll={false}>
         <SvgIcon fontSize="small">
           <svg viewBox="0 0 24 24">
             <g fill="none" stroke="currentColor" strokeWidth="1.5">

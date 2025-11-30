@@ -59,7 +59,7 @@ export default function ProductCard17({ product, bgWhite = false }) {
         </Typography>
 
         <Link href={`/products/${slug}`} aria-label={`View ${title}`}>
-          <Typography noWrap variant="h5" className="title">
+          <Typography variant="h5" className="title">
             {title}
           </Typography>
         </Link>

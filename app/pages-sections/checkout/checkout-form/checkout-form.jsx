@@ -18,6 +18,7 @@ import {
   Autocomplete,
   Checkbox,
 } from "../../../components/form-hook";
+import useCart  from "../../../hooks/useCart";
 
 // DUMMY CUSTOM DATA
 import countryList from "../../../data/countryList";
@@ -46,6 +47,7 @@ const validationSchema = yup.object().shape({
 });
 export default function CheckoutForm() {
   const router = useRouter();
+  const { dispatch } = useCart();
 
   const initialValues = {
     shipping_name: "",
@@ -79,10 +81,55 @@ export default function CheckoutForm() {
   } = methods;
   
   const handleSubmitForm = handleSubmit(
-    (values) => {
+    async (values) => {
       console.log("Form submitted successfully:", values);
-    //  alert(JSON.stringify(values, null, 2));
-      router.push("/payment");
+      
+      // Get cart data before clearing
+      const cartData = JSON.parse(localStorage.getItem("flysolar_cart") || "[]");
+      
+      // Generate unique order ID
+      const orderId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+      
+      // Prepare order data
+      const orderData = {
+        id: orderId,
+        orderNumber: Math.floor(Math.random() * 10000),
+        date: new Date().toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
+        customerInfo: values,
+        cartItems: cartData,
+        createdAt: new Date().toISOString(),
+      };
+      
+      // TODO: Save to database via API
+      // Example:
+      // try {
+      //   const response = await fetch('/api/orders', {
+      //     method: 'POST',
+      //     headers: { 'Content-Type': 'application/json' },
+      //     body: JSON.stringify(orderData)
+      //   });
+      //   const result = await response.json();
+      //   orderId = result.id;
+      // } catch (error) {
+      //   console.error('Error saving order:', error);
+      //   alert('Failed to place order. Please try again.');
+      //   return;
+      // }
+      
+      // Store in localStorage as backup (for demo without database)
+      const existingOrders = JSON.parse(localStorage.getItem("orders") || "{}");
+      existingOrders[orderId] = orderData;
+      localStorage.setItem("orders", JSON.stringify(existingOrders));
+      
+      // Clear the cart after successful order
+      dispatch({ type: "CLEAR_CART" });
+      
+      // Redirect with order ID as query parameter
+      router.push(`/order-confirmation?id=${orderId}`);
     },
     (errors) => {
       console.log("Form validation errors:", errors);
@@ -235,8 +282,9 @@ export default function CheckoutForm() {
           color="primary"
           variant="contained"
           disabled={isSubmitting}
+          style={{backgroundColor:"#ea580c"}}
         >
-          {isSubmitting ? "Processing..." : "Proceed to Payment"}
+          {isSubmitting ? "Processing..." : "Place Order"}
         </Button>
       </ButtonWrapper>
     </FormProvider>

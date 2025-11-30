@@ -11,7 +11,7 @@ const product = products.products.filter(item => item.for.type === "just-for-you
 
   if (!product || product.length === 0) return null;
   return <Container>
-      <SectionHeader title="Just for you" seeMoreLink="#" color="#CC5500"/>
+      <SectionHeader title="Just for you" seeMoreLink="/products" color="#CC5500"/>
 
       <Grid container spacing={3}>
         {product.map(product => <Grid size={{
