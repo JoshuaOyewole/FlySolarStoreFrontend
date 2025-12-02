@@ -1144,5 +1144,5 @@ const mobileNavigationTwoData = [
 export const mobileNavigation = {
   version1: mobileNavigationData,
   version2: mobileNavigationTwoData,
-  logo: "/assets/images/bazaar-black-sm.svg",
+  logo: "/assets/images/FlySolarStore-black-sm.svg",
 };

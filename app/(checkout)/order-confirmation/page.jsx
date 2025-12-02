@@ -26,25 +26,24 @@ export default function OrderConfirmationPage() {
   useEffect(() => {
     const fetchOrderData = async () => {
       try {
-        // Get order ID from URL params
-        const orderId = searchParams.get("id");
+        // Get order number from URL params
+        const orderNumber = searchParams.get("orderNumber");
 
-        if (!orderId) {
-          setError("Order ID not found");
+        if (!orderNumber) {
+          setError("Order number not found");
           setTimeout(() => router.push("/products"), 3000);
           return;
         }
 
-        // TODO: Fetch from database via API
-        // Example:
-        // const response = await fetch(`/api/orders/${orderId}`);
-        // if (!response.ok) throw new Error('Order not found');
-        // const data = await response.json();
-        // setOrderData(data);
-
-        // For demo: Fetch from localStorage (replace with API call)
-        const existingOrders = JSON.parse(localStorage.getItem("orders") || "{}");
-        const order = existingOrders[orderId];
+        // Fetch from database via API
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/orders/${orderNumber}`);
+        
+        if (!response.ok) {
+          throw new Error('Order not found');
+        }
+        
+        const result = await response.json();
+        const order = result.data;
 
         if (!order) {
           setError("Order not found");
@@ -52,7 +51,47 @@ export default function OrderConfirmationPage() {
           return;
         }
 
-        setOrderData(order);
+        // Transform order data to match component expectations
+        const transformedOrder = {
+          id: order._id,
+          orderNumber: order.orderNumber,
+          date: new Date(order.createdAt).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }),
+          customerInfo: {
+            shipping_name: order.shippingAddress.name,
+            shipping_email: order.shippingAddress.email,
+            shipping_contact: order.shippingAddress.contact,
+            shipping_address: order.shippingAddress.address,
+            shipping_state: order.shippingAddress.state,
+            shipping_country: order.shippingAddress.country,
+            billing_name: order.billingAddress.name,
+            billing_email: order.billingAddress.email,
+            billing_contact: order.billingAddress.contact,
+            billing_address: order.billingAddress.address,
+            billing_state: order.billingAddress.state,
+            billing_country: order.billingAddress.country,
+            same_as_shipping: order.sameAsShipping
+          },
+          cartItems: order.items.map(item => ({
+            id: item.productSnapshot.id,
+            name: item.productSnapshot.title,
+            slug: item.productSnapshot.slug,
+            imgUrl: item.productSnapshot.thumbnail,
+            price: item.price,
+            qty: item.quantity
+          })),
+          subtotal: order.subtotal,
+          tax: order.tax,
+          shipping: order.shippingCost,
+          total: order.total,
+          status: order.status,
+          createdAt: order.createdAt
+        };
+
+        setOrderData(transformedOrder);
       } catch (err) {
         console.error("Error fetching order:", err);
         setError("Failed to load order details");
@@ -136,17 +175,12 @@ export default function OrderConfirmationPage() {
     );
   }
 
-  // Use cart items from orderData (saved before clearing)
+  // Use cart items and totals from orderData
   const cartItems = orderData.cartItems || [];
-
-  // Calculate totals
-  const subtotal = cartItems.reduce(
-    (acc, item) => acc + item.price * item.qty,
-    0
-  );
-  // const shippingCost = 4000; // Fixed shipping cost
-  const shippingCost = 0; // Fixed shipping cost
-  const total = subtotal + shippingCost;
+  const subtotal = orderData.subtotal || 0;
+  const tax = orderData.tax || 0;
+  const shippingCost = orderData.shipping || 0;
+  const total = orderData.total || 0;
 
   return (
     <Container maxWidth="lg" sx={{ py: 6 }}>
@@ -288,7 +322,7 @@ export default function OrderConfirmationPage() {
             sx={{ mb: 2 }}
           >
             <Typography variant="body2" color="error">
-              {item.title} (× {item.qty})
+              {item.name || item.title} (× {item.qty})
             </Typography>
             <Typography variant="body2" fontWeight={600}>
               {currency(item.price * item.qty, 2)}
@@ -308,19 +342,22 @@ export default function OrderConfirmationPage() {
 
         <Divider sx={{ my: 2 }} />
 
+        {/* Tax */}
+        <Box display="flex" justifyContent="space-between" sx={{ mb: 2 }}>
+          <Typography variant="body1">Tax (7.5%):</Typography>
+          <Typography variant="body1" fontWeight={600}>
+            {currency(tax, 2)}
+          </Typography>
+        </Box>
+
+        <Divider sx={{ my: 2 }} />
+
         {/* Shipping */}
-        <Box sx={{ mb: 2 }}>
-          <Box display="flex" justifyContent="space-between" mb={1}>
-            <Typography variant="body1">Shipping:</Typography>
-            <Typography variant="body1" fontWeight={600}>
-              Collection from LAGOS:
-            </Typography>
-          </Box>
-          <Box display="flex" justifyContent="flex-end">
-            <Typography variant="body2" color="text.secondary">
-              Alaba International Market, Lagos
-            </Typography>
-          </Box>
+        <Box display="flex" justifyContent="space-between" sx={{ mb: 2 }}>
+          <Typography variant="body1">Shipping:</Typography>
+          <Typography variant="body1" fontWeight={600}>
+            {shippingCost === 0 ? "Door Step delivery attracts additional charges" : currency(shippingCost, 2)}
+          </Typography>
         </Box>
 
         <Divider sx={{ my: 2 }} />

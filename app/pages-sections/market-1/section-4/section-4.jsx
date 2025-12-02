@@ -4,24 +4,36 @@ import Grid from "@mui/material/Grid";
 import Container from "../../../components/Container";
 import { SectionHeader } from "../../../components/section-header";
 import ProductCard17 from "../../../components/product-cards/product-card-17";
-import products from "../../../data/market-1/data";
 
 export default async function Section4() {
-const product = products.products.filter(item => item.for.type === "just-for-you");
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/products/just-for-you`, {
+    next: { revalidate: 300 } // Cache for 5 minutes (300 seconds)
+  });
+  const res = await response.json();
 
-  if (!product || product.length === 0) return null;
-  return <Container>
+  const products = res.data;
+
+  if (!products || products.length === 0) return null;
+  
+  return (
+    <Container>
       <SectionHeader title="Just for you" seeMoreLink="/products" color="#CC5500"/>
 
       <Grid container spacing={3}>
-        {product.map(product => <Grid size={{
-        xs: 12,
-        sm: 6,
-        md: 4,
-        lg: 3
-      }} key={product.id}>
+        {products.map(product => (
+          <Grid 
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 4,
+              lg: 3
+            }} 
+            key={product.id || product._id}
+          >
             <ProductCard17 product={product} />
-          </Grid>)}
+          </Grid>
+        ))}
       </Grid>
-    </Container>;
+    </Container>
+  );
 }

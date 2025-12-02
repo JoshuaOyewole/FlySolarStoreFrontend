@@ -14,6 +14,16 @@ export const metadata = {
   ],
 };
 
-export default function ProductsPage() {
-  return <ProductsPageView />;
+export default async function ProductsPage() {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/products`,
+    {
+      next: { revalidate: 300 }, // Cache for 5 minutes
+    }
+  );
+
+  const res = await response.json();
+  const products = res.data || [];
+
+  return <ProductsPageView products={products} />;
 }

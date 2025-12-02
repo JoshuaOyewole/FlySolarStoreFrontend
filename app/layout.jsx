@@ -17,6 +17,10 @@ import ThemeProvider from "./theme/theme-provider";
 
 // PRODUCT CART PROVIDER
 import CartProvider from "./contexts/CartContext";
+
+// AUTH PROVIDER
+import { AuthProvider } from "./contexts/AuthContext";
+
 //IMPORT GLOBAL CSS STYLES
 import "./globals.css";
 
@@ -33,17 +37,19 @@ export default function RootLayout({ children, modal }) {
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <body id="body" className={geistSans.className}>
-        <CartProvider>
-          <ThemeProvider>
-            <LayoutWrapper>
-              <QueryProvider>
-                {modal}
-                {children}
-              </QueryProvider>
-              <ProgressBar />
-            </LayoutWrapper>
-          </ThemeProvider>
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <ThemeProvider>
+              <LayoutWrapper>
+                <QueryProvider>
+                  {modal}
+                  {children}
+                </QueryProvider>
+                <ProgressBar />
+              </LayoutWrapper>
+            </ThemeProvider>
+          </CartProvider>
+        </AuthProvider>
         <ToastContainer />
         {/* <GoogleAnalytics gaId="" /> */}
       </body>

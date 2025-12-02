@@ -1,24 +1,51 @@
-import { notFound } from "next/navigation";
-import { ProfilePageView } from "../../pages-sections/customer/profile/page-view";
-import users from "../../data/market-1/data";
+"use client";
 
-export async function generateMetadata() {
-  const user = users.users[0]; // MOCK: Get the first user
-  if (!user) notFound();
-  const name = `${user.name.firstName} ${user.name.lastName}`;
-  return {
-    title: name + " - No 1 for Solar Products Online Store",
-    description: "FlySolarStore is a React Next.js E-commerce template.",
-    authors: [{
-      name: "Orisfina Tech",
-      
-      url: "https://orisfinatech.com.ng"
-    }],
-    keywords: ["solar", "solar panels", "inverters", "batteries", "solar accessories", "renewable energy", "sustainable living", "Flysolarstore"],
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { ProfilePageView } from "../../pages-sections/customer/profile/page-view";
+import { useAuth } from "../../contexts/AuthContext";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+
+export default function Profile() {
+  const router = useRouter();
+  const { user, loading, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      router.push("/login");
+    }
+  }, [loading, isAuthenticated, router]);
+
+  if (loading) {
+    return (
+      <Box 
+        display="flex" 
+        justifyContent="center" 
+        alignItems="center" 
+        minHeight="400px"
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (!isAuthenticated || !user) {
+    return null;
+  }
+
+  // Transform user data to match the expected format
+  const transformedUser = {
+    id: user._id,
+    name: {
+      firstName: user.firstName,
+      lastName: user.lastName
+    },
+    email: user.email,
+    phone: user.phone || "N/A",
+    dateOfBirth: user.dateOfBirth || new Date().toISOString(),
+    avatar: user.avatar?.url || "/assets/images/avatars/default-avatar.png"
   };
-}
-export default async function Profile() {
-  const user = users.users[0]; // MOCK: Get the first user
-  if (!user) notFound();
-  return <ProfilePageView user={user} />;
+
+  return <ProfilePageView user={transformedUser} />;
 }

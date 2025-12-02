@@ -23,10 +23,7 @@ import {
   StatsBox,
 } from "../../products/styles";
 
-// DATA
-import productsData from "../../data/market-1/data";
-
-export default function ProductsPageView() {
+export default function ProductsPageView({ products: initialProducts }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Products");
   const [sortBy, setSortBy] = useState("newest");
@@ -51,7 +48,7 @@ export default function ProductsPageView() {
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {
-    let filtered = [...productsData.products];
+    let filtered = [...(initialProducts || [])];
 
     // Filter by search query
     if (searchQuery) {
@@ -93,7 +90,7 @@ export default function ProductsPageView() {
     }
 
     return filtered;
-  }, [searchQuery, selectedCategory, sortBy]);
+  }, [searchQuery, selectedCategory, sortBy, initialProducts]);
 
   // Paginate products
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);

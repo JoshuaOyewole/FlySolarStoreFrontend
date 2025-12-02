@@ -1,4 +1,6 @@
-import { Fragment } from "react";
+import { Fragment, Suspense } from "react";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
 // GLOBAL COMPONENTS
 //import Setting from "components/settings";
@@ -32,32 +34,122 @@ export default function MarketOnePageView() {
       </SecondaryHeader>
 
       {/* HERO SLIDER SECTION */}
-      <Section1 />
+      <Suspense
+        fallback={
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            minHeight="400px"
+          >
+            <CircularProgress size={40} />
+          </Box>
+        }
+      >
+        <Section1 />
+      </Suspense>
 
       {/* FLASH DEALS SECTION */}
-      <Section2 />
+      <Suspense
+        fallback={
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            minHeight="400px"
+          >
+            <CircularProgress size={40} />
+          </Box>
+        }
+      >
+        <Section2 />
+      </Suspense>
 
       {/* CUSTOM SOLUTIONS SECTION */}
       {/*     <Section3 /> */}
 
       {/* JUST FOR YOU SECTION */}
-      <Section4 />
+      <Suspense
+        fallback={
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            minHeight="400px"
+          >
+            <CircularProgress size={40} />
+          </Box>
+        }
+      >
+        <Section4 />
+      </Suspense>
 
       {/* PROMO BANNERS SECTION */}
       {/*  <Section5 /> */}
 
       {/* NEW ARRIVALS SECTION */}
-      <Section6 />
+      <Suspense
+        fallback={
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            minHeight="400px"
+          >
+            <CircularProgress size={40} />
+          </Box>
+        }
+      >
+        <Section6 />
+      </Suspense>
 
       {/* GRID PRODUCTS SECTION */}
-        <Section7 /> 
+      <Suspense
+        fallback={
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            minHeight="400px"
+          >
+            <CircularProgress size={40} />
+          </Box>
+        }
+      >
+        <Section7 />
+      </Suspense>
 
       {/* BLOG SECTION */}
-       <Section8 /> 
+      <Suspense
+        fallback={
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            minHeight="400px"
+          >
+            <CircularProgress size={40} />
+          </Box>
+        }
+      >
+        <Section8 />
+      </Suspense>
 
       {/* SERVICES SECTION */}
-        <Section9 /> 
-
+      <Suspense
+        fallback={
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            minHeight="400px"
+          >
+            <CircularProgress size={40} />
+          </Box>
+        }
+      >
+        <Section9 />
+      </Suspense>
       {/* POPUP NEWSLETTER FORM */}
       {/* <Newsletter /> */}
 

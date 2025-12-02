@@ -1,7 +1,4 @@
 import MarketOnePageView from "./pages-sections/market-1/page-view";
-import { Suspense } from "react";
-import Box from "@mui/material/Box";
-import CircularProgress from "@mui/material/CircularProgress";
 
 export const metadata = {
   title: "Flysolarstore - No 1 for Solar Products Online Store",
@@ -25,20 +22,5 @@ export const metadata = {
   ],
 };
 export default function MarketOne() {
-  return (
-    <Suspense
-      fallback={
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          minHeight="60vh"
-        >
-          <CircularProgress size={60} />
-        </Box>
-      }
-    >
-      <MarketOnePageView />
-    </Suspense>
-  );
+  return <MarketOnePageView />;
 }
