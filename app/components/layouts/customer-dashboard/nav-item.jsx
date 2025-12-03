@@ -39,12 +39,13 @@ export default function NavItem({
   } = item;
   const pathname = usePathname();
   const Icon = icons[icon];
+
   return <StyledLink href={href} key={title} isActive={pathname === href}>
       <div className="title">
         <Icon color="inherit" fontSize="small" className="nav-icon" />
         <Typography variant="body2">{title}</Typography>
       </div>
 
-      {count ? <span>{count}</span> : null}
+      {Number(count) ? <span>{count}</span> : null}
     </StyledLink>;
 }

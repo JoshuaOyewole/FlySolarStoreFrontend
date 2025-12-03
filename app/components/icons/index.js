@@ -10,6 +10,9 @@ import Shield from "./Shield";
 import CustomerService from "./CustomerService";
 import Trash from "./Trash";
 import Search from "./Search";
+import TruckFilled from "./TruckFilled";
+import Delivery from "./Delivery";
+import PackageBox from "./PackageBox";
 
 
 const appIcons = {
@@ -24,7 +27,10 @@ const appIcons = {
   Shield,
   CustomerService,
   Trash,
-  Search
+  Search,
+  TruckFilled,
+  Delivery,
+  PackageBox
 }
 
 export default appIcons;

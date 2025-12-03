@@ -105,6 +105,15 @@ export const authAPI = {
   },
 
   /**
+   * Verify email with token
+   */
+  verifyEmail: async (token) => {
+    return apiRequest(`/auth/verify-email?token=${token}`, {
+      method: 'GET',
+    });
+  },
+
+  /**
    * Forgot password
    */
   forgotPassword: async (email) => {
@@ -174,19 +183,30 @@ export const ordersAPI = {
   },
 
   /**
-   * Get user orders
+   * Get user orders with pagination
    */
-  getMyOrders: async () => {
-    return apiRequest('/orders/my-orders', {
+  getMyOrders: async (params = {}) => {
+    const queryString = new URLSearchParams(params).toString();
+    return apiRequest(`/orders/my-orders${queryString ? `?${queryString}` : ''}`, {
       method: 'GET',
     });
   },
 
   /**
-   * Get order by ID
+   * Get order by ID or order number
    */
   getById: async (id) => {
     return apiRequest(`/orders/${id}`, {
+      method: 'GET',
+    });
+  },
+  
+  /**
+   * Get all orders (admin)
+   */
+  getAll: async (params = {}) => {
+    const queryString = new URLSearchParams(params).toString();
+    return apiRequest(`/orders${queryString ? `?${queryString}` : ''}`, {
       method: 'GET',
     });
   },
