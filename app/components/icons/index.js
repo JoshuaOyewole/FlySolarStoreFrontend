@@ -13,6 +13,13 @@ import Search from "./Search";
 import TruckFilled from "./TruckFilled";
 import Delivery from "./Delivery";
 import PackageBox from "./PackageBox";
+import CartX from "./CartX";
+import CartCheck from "./CartCheck";
+import TruckFast from "./TruckFast";
+import Toggle from "./Toggle";
+import Globe from "./Globe";
+import UpDown from "./UpDown";
+import Reload from "./Reload";
 
 
 const appIcons = {
@@ -30,7 +37,14 @@ const appIcons = {
   Search,
   TruckFilled,
   Delivery,
-  PackageBox
+  PackageBox,
+  CartX,
+  CartCheck,
+  TruckFast,
+  Globe,
+  Toggle,
+  UpDown,
+  Reload,
 }
 
 export default appIcons;

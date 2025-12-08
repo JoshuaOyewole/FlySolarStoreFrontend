@@ -7,7 +7,7 @@ export default function LayoutWrapper({ children }) {
   const pathname = usePathname();
 
   // List of routes that should NOT have the header/footer layout
-  const authRoutes = ["/login", "/register", "/reset-password"];
+  const authRoutes = ["/login", "/register", "/reset-password", "/vendor","/admin"];
 
   // Check if current route is an auth route
   const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));

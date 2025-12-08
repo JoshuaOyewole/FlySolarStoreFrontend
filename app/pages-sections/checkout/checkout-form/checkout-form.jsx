@@ -37,13 +37,6 @@ const validationSchema = yup.object().shape({
   shipping_country: yup.mixed().required("Country is required"),
   shipping_state: yup.string().required("State is required"),
   shipping_address: yup.string().required("Address is required"),
-  same_as_shipping: yup.boolean().optional(),
-  billing_name: yup.string().optional(),
-  billing_email: yup.string().optional(),
-  billing_contact: yup.string().optional(),
-  billing_country: yup.mixed().optional(),
-  billing_state: yup.string().optional(),
-  billing_address: yup.string().optional(),
 });
 export default function CheckoutForm() {
   const router = useRouter();
@@ -55,17 +48,7 @@ export default function CheckoutForm() {
     shipping_contact: "",
     shipping_state: "",
     shipping_address: "",
-    billing_state: "",
     shipping_country: {
-      label: "Nigeria",
-      value: "NG",
-    },
-    same_as_shipping: false,
-    billing_name: "",
-    billing_email: "",
-    billing_contact: "",
-    billing_address: "",
-    billing_country: {
       label: "Nigeria",
       value: "NG",
     },
@@ -165,7 +148,7 @@ export default function CheckoutForm() {
   const handleSubmitForm = handleSubmit(
     async (values) => {
       console.log("Submitting order...");
-      
+
       try {
         const { cart: cartData } = state;
 
@@ -198,20 +181,8 @@ export default function CheckoutForm() {
             state: values.shipping_state,
             country: values.shipping_country,
           },
-          billingAddress: values.same_as_shipping
-            ? null
-            : {
-                name: values.billing_name,
-                email: values.billing_email,
-                contact: values.billing_contact,
-                address: values.billing_address,
-                state: values.billing_state,
-                country: values.billing_country,
-              },
-          sameAsShipping: values.same_as_shipping,
         };
 
-        
         // Submit to backend - backend generates order number
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/orders`,
@@ -255,7 +226,9 @@ export default function CheckoutForm() {
         dispatch({ type: "CLEAR_CART" });
 
         // Redirect to order confirmation with backend order number
-        router.push(`/order-confirmation?orderNumber=${createdOrder.orderNumber}`);
+        router.push(
+          `/order-confirmation?orderNumber=${createdOrder.orderNumber}`
+        );
       } catch (error) {
         console.error("Error submitting order:", error);
         alert(error.message || "Failed to submit order. Please try again.");
@@ -329,8 +302,8 @@ export default function CheckoutForm() {
         </FormWrapper>
       </CardRoot>
 
-      <CardRoot elevation={0}>
-        <Typography variant="h5">Billing Address</Typography>
+     {/*  <CardRoot elevation={0}>
+         <Typography variant="h5">Billing Address</Typography>
 
         <Checkbox
           size="small"
@@ -341,7 +314,7 @@ export default function CheckoutForm() {
             "mb-1": !sameAsShipping,
           })}
         />
-
+ 
         {!sameAsShipping && (
           <FormWrapper>
             <TextField
@@ -390,8 +363,8 @@ export default function CheckoutForm() {
               rows={2}
             />
           </FormWrapper>
-        )}
-      </CardRoot>
+        )} 
+      </CardRoot>*/}
 
       <ButtonWrapper>
         <Button

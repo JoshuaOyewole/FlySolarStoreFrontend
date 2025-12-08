@@ -67,13 +67,6 @@ export default function OrderConfirmationPage() {
             shipping_address: order.shippingAddress.address,
             shipping_state: order.shippingAddress.state,
             shipping_country: order.shippingAddress.country,
-            billing_name: order.billingAddress.name,
-            billing_email: order.billingAddress.email,
-            billing_contact: order.billingAddress.contact,
-            billing_address: order.billingAddress.address,
-            billing_state: order.billingAddress.state,
-            billing_country: order.billingAddress.country,
-            same_as_shipping: order.sameAsShipping
           },
           cartItems: order.items.map(item => ({
             id: item.productSnapshot.id,

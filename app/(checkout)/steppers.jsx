@@ -51,11 +51,11 @@ const STEPPER_LIST = [{
   title: "Details",
   disabled: false,
   path: "/checkout"
-}, {
+}, /*{
   title: "Payment",
   disabled: false,
   path: "/payment"
-}, /* {
+},  {
   title: "Review",
   disabled: false,
   path: "/orders"
