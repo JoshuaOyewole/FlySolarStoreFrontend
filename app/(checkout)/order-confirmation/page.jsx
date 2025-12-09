@@ -245,7 +245,7 @@ export default function OrderConfirmationPage() {
       {/* Bank Transfer Instructions */}
       <Box sx={{ mb: 4 }}>
         <Typography variant="body1" color="text.secondary" paragraph>
-          Kindly Send the receipt of the bank transfer to 08071444456
+          Kindly Send the receipt of the bank transfer to 08167360193
         </Typography>
 
         <Card sx={{ p: 4, backgroundColor: "grey.50" }}>
@@ -258,7 +258,7 @@ export default function OrderConfirmationPage() {
             fontWeight={700}
             sx={{ mt: 3, mb: 2, textTransform: "uppercase" }}
           >
-            ORISFINA LIMITED
+            FLY Solar Technology Ltd
           </Typography>
 
           <Grid container spacing={3}>
@@ -267,7 +267,7 @@ export default function OrderConfirmationPage() {
                 BANK:
               </Typography>
               <Typography variant="h6" fontWeight={600}>
-                Sterling Bank
+                Guarantee Trust Bank (GTB)
               </Typography>
             </Grid>
             <Grid size={{ xs: 12, md: 3, sm: 6 }}>
@@ -275,7 +275,7 @@ export default function OrderConfirmationPage() {
                 ACCOUNT NUMBER:
               </Typography>
               <Typography variant="h6" fontWeight={600}>
-                0128219824
+                3000774897
               </Typography>
             </Grid>
           </Grid>
