@@ -28,7 +28,7 @@
     "embla-carousel-react": "^8.6.0",
     "i18next": "^25.6.2",
     "lodash": "^4.17.21",
-    "next": "16.0.3",
+    "next": "16.0.7",
     "next-i18next": "^15.4.2",
     "nprogress": "^0.2.0",
     "overlayscrollbars": "^2.12.0",
