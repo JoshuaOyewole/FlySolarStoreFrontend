@@ -1010,10 +1010,10 @@ export const header = {
       title: "Blog",
       url: "/blog",
     },
-    {
+   /*  {
       title: "Support",
       url: "/support",
-    },
+    }, */
     /*   {
       megaMenu: false,
       megaMenuWithSub: false,
