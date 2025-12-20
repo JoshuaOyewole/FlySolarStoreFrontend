@@ -5,8 +5,9 @@ import { ordersAPI } from "../../../lib/api";
 export async function generateMetadata({ params }) {
   try {
     const { id } = await params;
+    console.log("generateMetadata - Order ID:", id);
     const response = await ordersAPI.getById(id);
-    
+    console.log("generateMetadata - Order response:", response);
     if (!response || !response.data) {
       return {
         title: "Order Not Found - FlySolarStore E-Commerce shop",
@@ -37,6 +38,7 @@ export default async function OrderDetails({ params }) {
     const { id } = await params;
     const response = await ordersAPI.getById(id);
     
+    console.log("OrderDetails - Order response:", response);
     if (!response || !response.data) {
       notFound();
     }
@@ -60,9 +62,10 @@ export default async function OrderDetails({ params }) {
         variant: item.variant || null
       })),
       shippingAddress: order.shippingAddress,
-      billingAddress: order.billingAddress,
+      billingAddress: order.billingAddress||null,
       subtotal: order.subtotal,
       tax: order.tax,
+      discount: order.discount,
       shippingCost: order.shippingCost
     };
     

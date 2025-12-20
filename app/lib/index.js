@@ -47,8 +47,8 @@ export function calculateDiscount(price, discount) {
  * @returns - RETURN PRICE WITH CURRENCY
  */
 
-export function currency(price, fraction = 2) {
-  return Intl.NumberFormat("en-US", {
+export function currency(price, fraction = 0) {
+  return Intl.NumberFormat("en-NG", {
     currency: "NGN",
     style: "currency",
     maximumFractionDigits: fraction

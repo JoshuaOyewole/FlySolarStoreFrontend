@@ -5,10 +5,10 @@ import Typography from "@mui/material/Typography";
 import FlexRowCenter from "../../../components/flex-box/flex-row-center";
 
 // IMPORT IMAGES
-import logo from "../../../../public/assets/images/logo2.svg";
+import logo from "../../../../public/assets/images/logo_new.png";
 export default function LogoWithTitle() {
   return <FlexRowCenter flexDirection="column" gap={2} mb={4}>
-      <Image width={90} src={logo} alt="FlySolarStore Ecommerce Template" />
+      <Image width={140} height={104} src={logo} alt="FlySolarStore Ecommerce Template" />
       <Typography fontWeight={600} variant="h5">
         Welcome To FlySolarStore
       </Typography>

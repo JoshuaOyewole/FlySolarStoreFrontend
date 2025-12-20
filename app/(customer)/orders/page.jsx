@@ -1,57 +1,52 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { OrdersPageView } from "../../pages-sections/customer/orders/page-view";
 import { ordersAPI } from "../../lib/api";
 
-export const metadata = {
-  title: "Orders - FlySolarStore E-Commerce shop",
-  description:
-    "Bazaar is a React Next.js E-commerce template. Build SEO friendly Online store, delivery app and Multi vendor store",
-  authors: [
-    {
-      name: "UI-LIB",
-      url: "https://ui-lib.com",
-    },
-  ],
-  keywords: ["e-commerce", "e-commerce template", "next.js", "react"],
-};
+export default function Orders() {
+  const searchParams = useSearchParams();
+  const [orders, setOrders] = useState([]);
+  const [pagination, setPagination] = useState({ totalPages: 1, currentPage: 1 });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-// ==============================================================
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        setLoading(true);
+        const page = searchParams.get("page") || 1;
+        
+        const response = await ordersAPI.getMyOrders({ page, limit: 10 });
+        
+        if (response && response.data) {
+          setOrders(response.data.orders || []);
+          setPagination(response.data.pagination || { totalPages: 1, currentPage: 1 });
+        } else {
+          setError("Unable to load orders. Please try again later.");
+        }
+      } catch (err) {
+        console.error('Error loading orders:', err);
+        setError("Unable to load orders. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-// ==============================================================
+    fetchOrders();
+  }, [searchParams]);
 
-export default async function Orders({ searchParams }) {
-  try {
-    const { page = 1 } = await searchParams || {};
-    
-    // Fetch orders from API
-    const response = await ordersAPI.getMyOrders({ page, limit: 10 });
-    
-    if (!response || !response.data) {
-      return (
-        <OrdersPageView 
-          orders={[]} 
-          totalPages={0}
-          error="Unable to load orders. Please try again later." 
-        />
-      );
-    }
-    
-    const { orders, pagination } = response.data;
-    
-    return (
-      <OrdersPageView 
-        orders={orders || []} 
-        totalPages={pagination?.totalPages || 1}
-        currentPage={pagination?.currentPage || 1}
-      />
-    );
-  } catch (error) {
-    console.error('Error loading orders:', error);
-    return (
-      <OrdersPageView 
-        orders={[]} 
-        totalPages={0}
-        error="Unable to load orders. Please try again later." 
-      />
-    );
+  if (loading) {
+    return <OrdersPageView orders={[]} totalPages={0} currentPage={1} loading={true} />;
   }
+
+  return (
+    <OrdersPageView 
+      orders={orders} 
+      totalPages={pagination.totalPages}
+      currentPage={pagination.currentPage}
+      error={error}
+    />
+  );
 }

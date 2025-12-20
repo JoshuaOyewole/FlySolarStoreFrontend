@@ -20,7 +20,7 @@ import { currency } from "../../../lib";
 // ========================================================
 
 export default function ProductCard17({ product, bgWhite = false }) {
-  const { slug, title, price, thumbnail, images, discount, categories } =
+  const { slug, title, price, thumbnail, images, discount, categories, category } =
     product;
   return (
     <StyledCard elevation={0} bgWhite={bgWhite}>
@@ -55,7 +55,7 @@ export default function ProductCard17({ product, bgWhite = false }) {
 
       <ContentWrapper className="flex justify-center items-center flex-col">
         <Typography noWrap variant="body2" className="category">
-          {categories.length > 0 ? categories[0] : "N/A"}
+          {categories ? categories.length > 0 ? categories[0] : "N/A" : category}
         </Typography>
 
         <Link href={`/products/${slug}`} aria-label={`View ${title}`}>

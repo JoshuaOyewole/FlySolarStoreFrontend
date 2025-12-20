@@ -16,7 +16,7 @@ export default function LogoArea() {
     handleSidebarCompactToggle
   } = useLayout();
   return <FlexBetween p={2} maxHeight={TOP_HEADER_AREA} justifyContent={COMPACT ? "center" : "space-between"}>
-      <Avatar alt="Bazaar Logo" src={COMPACT ? "/assets/images/bazaar-white-sm.svg" : "/assets/images/logo.svg"} sx={{
+      <Avatar alt="Bazaar Logo" src={COMPACT ? "/assets/images/logo_new.png" : "/assets/images/logo_new.png"} sx={{
       borderRadius: 0,
       width: "auto",
       marginLeft: COMPACT ? 0 : 1

@@ -15,46 +15,51 @@ import { currency } from "../../../lib";
 
 // STYLED COMPONENTS
 import { StyledRoot } from "./styles";
-import ProductDescription from "../product-description";
+import ProductSummary from "../product-summary";
+import { fontSize } from "../../../theme/core";
 
 // CUSTOM DATA MODEL
 
+// ================================================================
 
 // ================================================================
 
-
-// ================================================================
-
-export default function ProductIntro({
-  product
-}) {
-  return <StyledRoot>
+export default function ProductIntro({ product }) {
+  return (
+    <StyledRoot>
       <Grid container spacing={3} justifyContent="space-around">
         {/* IMAGE GALLERY AREA */}
-        <Grid size={{
-        lg: 6,
-        md: 7,
-        xs: 12
-      }}>
+        <Grid
+          size={{
+            lg: 6,
+            md: 7,
+            xs: 12,
+          }}
+        >
           <ProductGallery images={product.images} />
         </Grid>
-
-        <Grid size={{
-        lg: 5,
-        md: 5,
-        xs: 12
-      }}>
-          <Typography variant="h1">{product.title}</Typography>
-
-          <Typography variant="body1">
-            Category: <strong>Bag</strong>
+        {/* 7066285394 Folashade Shakira OPAY */}
+        <Grid
+          size={{
+            lg: 5,
+            md: 5,
+            xs: 12,
+          }}
+        >
+          <Typography variant="h1" sx={{ fontSize: { sx: 20, lg: 35 } }}>
+            {product.title}
           </Typography>
 
-         {/*  <Typography variant="body1">
+          <Typography variant="body1">
+            Category:{" "}
+            <strong>{product.category || product.categories.join(", ")}</strong>
+          </Typography>
+
+          {/*  <Typography variant="body1">
             Product Code: <strong>ERE238</strong>
           </Typography> */}
 
-      {/*     <Typography variant="body1" fontSize={30} fontWeight={700} sx={{
+          {/*     <Typography variant="body1" fontSize={30} fontWeight={700} sx={{
           my: 1
         }}>
             $484.00{" "}
@@ -77,38 +82,42 @@ export default function ProductIntro({
           <div className="rating">
             <span>Rated:</span>
             <Rating readOnly color="warn" size="small" value={product.rating} />
-            <Typography variant="h6">({product.reviews?.length || 0})</Typography>
+            {/* <Typography variant="h6">
+              ({product.reviews?.length || 5})
+            </Typography> */}
           </div>
 
           {/* PRODUCT VARIANTS */}
-         {/*  <ProductVariantSelector /> */}
-
+          {/*  <ProductVariantSelector /> */}
+          <ProductSummary />
           {/* PRICE & STOCK */}
           <div className="price">
-            <Typography variant="h2" sx={{
-            color: "primary.main",
-            mb: 0.5,
-            lineHeight: 1
-          }}>
+            <Typography
+              variant="h2"
+              sx={{
+                color: "primary.main",
+                mb: 0.5,
+                lineHeight: 1,
+              }}
+            >
               {currency(product.price)}
             </Typography>
 
-           {/*  <p>Stock Available</p> */}
+            <p>Stock Available</p>
           </div>
 
           {/* ADD TO CART BUTTON */}
           <AddToCart product={product} />
 
           {/* SHOP NAME */}
-         {/*  {product.shop && <p className="shop">
+          {/*  {product.shop && <p className="shop">
               Sold By:
               <Link href={`/shops/${product.shop.slug}`}>
                 <strong>{product.shop.name}</strong>
               </Link>
             </p>} */}
-
-            <ProductDescription />
         </Grid>
       </Grid>
-    </StyledRoot>;
+    </StyledRoot>
+  );
 }

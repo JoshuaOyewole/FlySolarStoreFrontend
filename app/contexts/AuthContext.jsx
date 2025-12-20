@@ -18,20 +18,16 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuth = async () => {
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setLoading(false);
-        return;
-      }
-
+      // No need to check localStorage, rely on backend cookie
       const response = await authAPI.getProfile();
       if (response.success) {
         setUser(response.data.user);
         setIsAuthenticated(true);
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
       }
     } catch (error) {
-      console.error("Auth check failed:", error);
-      localStorage.removeItem("token");
       setUser(null);
       setIsAuthenticated(false);
     } finally {
@@ -43,7 +39,6 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await authAPI.login(credentials);
       if (response.success && response.token) {
-        localStorage.setItem("token", response.token);
         setUser(response.data.user);
         setIsAuthenticated(true);
         toast.success("Login successful!");
@@ -60,7 +55,6 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await authAPI.register(userData);
       if (response.success && response.token) {
-        localStorage.setItem("token", response.token);
         setUser(response.data.user);
         setIsAuthenticated(true);
         toast.success("Registration successful!");
@@ -79,7 +73,6 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
-      localStorage.removeItem("token");
       setUser(null);
       setIsAuthenticated(false);
       toast.info("You have been logged out");

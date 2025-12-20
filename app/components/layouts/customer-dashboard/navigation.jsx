@@ -20,8 +20,6 @@ export function Navigation() {
   const { logout } = useAuth();
   const { orders, wishlist, loading } = useDashboardCounts();
 
-
-  console.log('Dashboard counts - orders:', orders, 'wishlist:', wishlist, 'loading:', loading);
   const MENUS = [{
     title: "DASHBOARD",
     list: [{
@@ -32,7 +30,7 @@ export function Navigation() {
     }, {
       count: wishlist,
       icon: "HeartLine",
-      href: "/wish-list",
+      href: "#",
       title: "Wishlist"
     }, /* {
       count: 1,

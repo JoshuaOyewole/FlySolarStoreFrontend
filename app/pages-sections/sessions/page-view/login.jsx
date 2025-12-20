@@ -20,80 +20,114 @@ import usePasswordVisible from "../use-password-visible";
 // AUTH CONTEXT
 import { useAuth } from "../../../contexts/AuthContext";
 
-
 // LOGIN FORM FIELD VALIDATION SCHEMA
 const validationSchema = yup.object().shape({
   password: yup.string().required("Password is required"),
-  email: yup.string().email("Invalid Email Address").required("Email is required")
+  email: yup
+    .string()
+    .email("Invalid Email Address")
+    .required("Email is required"),
 });
 export default function LoginPageView() {
   const router = useRouter();
   const { login } = useAuth();
   const [error, setError] = useState("");
-  
-  const {
-    visiblePassword,
-    togglePasswordVisible
-  } = usePasswordVisible();
-  
+
+  const { visiblePassword, togglePasswordVisible } = usePasswordVisible();
+
   const initialValues = {
     email: "",
-    password: ""
+    password: "",
   };
-  
+
   const methods = useForm({
     defaultValues: initialValues,
-    resolver: yupResolver(validationSchema)
+    resolver: yupResolver(validationSchema),
   });
-  
+
   const {
     handleSubmit,
-    formState: {
-      isSubmitting
-    }
+    formState: { isSubmitting },
   } = methods;
-  
+
   const handleSubmitForm = handleSubmit(async (values) => {
     try {
       setError("");
-      await login(values);
+      const res = await login(values);
+      if (res?.user?.role.toLowerCase() === "admin") {
+        router.push("/admin/dashboard");
+        return;
+      }
+      console.log("Login response:", res);
       // Redirect to home page or dashboard after successful login
       router.push("/");
     } catch (err) {
       setError(err.message || "Login failed. Please try again.");
     }
   });
-  
-  return <FormProvider methods={methods} onSubmit={handleSubmitForm}>
+
+  return (
+    <FormProvider methods={methods} onSubmit={handleSubmitForm}>
       {error && (
-        <div style={{ 
-          padding: "12px", 
-          marginBottom: "16px", 
-          backgroundColor: "#ffebee", 
-          color: "#c62828",
-          borderRadius: "4px",
-          fontSize: "14px"
-        }}>
+        <div
+          style={{
+            padding: "12px",
+            marginBottom: "16px",
+            backgroundColor: "#ffebee",
+            color: "#c62828",
+            borderRadius: "4px",
+            fontSize: "14px",
+          }}
+        >
           {error}
         </div>
       )}
-      
+
       <div className="mb-1">
         <Label>Email or Phone Number</Label>
-        <TextField fullWidth name="email" type="email" size="medium" placeholder="exmple@mail.com" />
+        <TextField
+          fullWidth
+          name="email"
+          type="email"
+          size="medium"
+          placeholder="exmple@mail.com"
+        />
       </div>
 
       <div className="mb-2">
         <Label>Password</Label>
-        <TextField fullWidth size="medium" name="password" autoComplete="on" placeholder="*********" type={visiblePassword ? "text" : "password"} slotProps={{
-        input: {
-          endAdornment: <EyeToggleButton show={visiblePassword} click={togglePasswordVisible} />
-        }
-      }} />
+        <TextField
+          fullWidth
+          size="medium"
+          name="password"
+          autoComplete="on"
+          placeholder="*********"
+          type={visiblePassword ? "text" : "password"}
+          slotProps={{
+            input: {
+              endAdornment: (
+                <EyeToggleButton
+                  show={visiblePassword}
+                  click={togglePasswordVisible}
+                />
+              ),
+            },
+          }}
+        />
       </div>
 
-      <Button fullWidth size="large" style={{backgroundColor:"#CC5500"}} type="submit" color="primary" variant="contained" loading={isSubmitting} disabled={isSubmitting}>
+      <Button
+        fullWidth
+        size="large"
+        style={{ backgroundColor: "#CC5500" }}
+        type="submit"
+        color="primary"
+        variant="contained"
+        loading={isSubmitting}
+        disabled={isSubmitting}
+      >
         {isSubmitting ? "Logging in..." : "Login"}
       </Button>
-    </FormProvider>;
+    </FormProvider>
+  );
 }

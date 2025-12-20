@@ -3,28 +3,26 @@
  * Handles all HTTP requests to the backend API
  */
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
 /**
  * Generic API request handler
  */
 async function apiRequest(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
-  
+
   const config = {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       ...options.headers,
     },
     ...options,
   };
 
-  // Add auth token if available
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
+  // Include credentials for cookies if specified
+  if (options.credentials) {
+    config.credentials = options.credentials;
   }
 
   try {
@@ -34,7 +32,7 @@ async function apiRequest(endpoint, options = {}) {
     if (!response.ok) {
       throw {
         status: response.status,
-        message: data.error.message || 'An error occurred',
+        message: data.error.message || "An error occurred",
         errors: data.errors || [],
       };
     }
@@ -46,7 +44,7 @@ async function apiRequest(endpoint, options = {}) {
     }
     throw {
       status: 500,
-      message: error.message || 'Network error occurred',
+      message: error.message || "Network error occurred",
       errors: [],
     };
   }
@@ -60,9 +58,10 @@ export const authAPI = {
    * Register a new user
    */
   register: async (userData) => {
-    return apiRequest('/auth/register', {
-      method: 'POST',
+    return apiRequest("/auth/register", {
+      method: "POST",
       body: JSON.stringify(userData),
+      credentials: "include",
     });
   },
 
@@ -70,9 +69,10 @@ export const authAPI = {
    * Login user
    */
   login: async (credentials) => {
-    return apiRequest('/auth/login', {
-      method: 'POST',
+    return apiRequest("/auth/login", {
+      method: "POST",
       body: JSON.stringify(credentials),
+      credentials: "include",
     });
   },
 
@@ -80,8 +80,9 @@ export const authAPI = {
    * Logout user
    */
   logout: async () => {
-    return apiRequest('/auth/logout', {
-      method: 'POST',
+    return apiRequest("/auth/logout", {
+      method: "POST",
+      credentials: "include",
     });
   },
 
@@ -89,8 +90,9 @@ export const authAPI = {
    * Get current user profile
    */
   getProfile: async () => {
-    return apiRequest('/auth/me', {
-      method: 'GET',
+    return apiRequest("/auth/me", {
+      method: "GET",
+      credentials: "include",
     });
   },
 
@@ -98,9 +100,10 @@ export const authAPI = {
    * Update user profile
    */
   updateProfile: async (userData) => {
-    return apiRequest('/auth/update-profile', {
-      method: 'PUT',
+    return apiRequest("/auth/update-profile", {
+      method: "PUT",
       body: JSON.stringify(userData),
+      credentials: "include",
     });
   },
 
@@ -109,7 +112,8 @@ export const authAPI = {
    */
   verifyEmail: async (token) => {
     return apiRequest(`/auth/verify-email?token=${token}`, {
-      method: 'GET',
+      method: "GET",
+      credentials: "include",
     });
   },
 
@@ -117,8 +121,8 @@ export const authAPI = {
    * Forgot password
    */
   forgotPassword: async (email) => {
-    return apiRequest('/auth/forgot-password', {
-      method: 'POST',
+    return apiRequest("/auth/forgot-password", {
+      method: "POST",
       body: JSON.stringify({ email }),
     });
   },
@@ -127,9 +131,10 @@ export const authAPI = {
    * Reset password
    */
   resetPassword: async (token, password) => {
-    return apiRequest('/auth/reset-password', {
-      method: 'POST',
+    return apiRequest("/auth/reset-password", {
+      method: "POST",
       body: JSON.stringify({ token, password }),
+      credentials: "include",
     });
   },
 
@@ -137,9 +142,10 @@ export const authAPI = {
    * Update password
    */
   updatePassword: async (currentPassword, newPassword) => {
-    return apiRequest('/auth/update-password', {
-      method: 'PUT',
+    return apiRequest("/auth/update-password", {
+      method: "PUT",
       body: JSON.stringify({ currentPassword, newPassword }),
+      credentials: "include",
     });
   },
 };
@@ -153,8 +159,8 @@ export const productsAPI = {
    */
   getAll: async (params = {}) => {
     const queryString = new URLSearchParams(params).toString();
-    return apiRequest(`/products${queryString ? `?${queryString}` : ''}`, {
-      method: 'GET',
+    return apiRequest(`/products${queryString ? `?${queryString}` : ""}`, {
+      method: "GET",
     });
   },
 
@@ -163,7 +169,7 @@ export const productsAPI = {
    */
   getById: async (id) => {
     return apiRequest(`/products/${id}`, {
-      method: 'GET',
+      method: "GET",
     });
   },
 };
@@ -176,9 +182,10 @@ export const ordersAPI = {
    * Create new order
    */
   create: async (orderData) => {
-    return apiRequest('/orders', {
-      method: 'POST',
+    return apiRequest("/orders", {
+      method: "POST",
       body: JSON.stringify(orderData),
+      credentials: "include",
     });
   },
 
@@ -187,9 +194,13 @@ export const ordersAPI = {
    */
   getMyOrders: async (params = {}) => {
     const queryString = new URLSearchParams(params).toString();
-    return apiRequest(`/orders/my-orders${queryString ? `?${queryString}` : ''}`, {
-      method: 'GET',
-    });
+    return apiRequest(
+      `/orders/my-orders${queryString ? `?${queryString}` : ""}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
   },
 
   /**
@@ -197,17 +208,19 @@ export const ordersAPI = {
    */
   getById: async (id) => {
     return apiRequest(`/orders/${id}`, {
-      method: 'GET',
+      method: "GET",
+      credentials: "include",
     });
   },
-  
+
   /**
    * Get all orders (admin)
    */
   getAll: async (params = {}) => {
     const queryString = new URLSearchParams(params).toString();
-    return apiRequest(`/orders${queryString ? `?${queryString}` : ''}`, {
-      method: 'GET',
+    return apiRequest(`/orders${queryString ? `?${queryString}` : ""}`, {
+      method: "GET",
+      credentials: "include",
     });
   },
 };
@@ -221,8 +234,8 @@ export const blogAPI = {
    */
   getAll: async (params = {}) => {
     const queryString = new URLSearchParams(params).toString();
-    return apiRequest(`/blogs${queryString ? `?${queryString}` : ''}`, {
-      method: 'GET',
+    return apiRequest(`/blogs${queryString ? `?${queryString}` : ""}`, {
+      method: "GET",
     });
   },
 
@@ -231,7 +244,7 @@ export const blogAPI = {
    */
   getById: async (id) => {
     return apiRequest(`/blogs/${id}`, {
-      method: 'GET',
+      method: "GET",
     });
   },
 };

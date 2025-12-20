@@ -20,10 +20,10 @@ export function OrderDetailsPageView({
   return <Fragment>
       <DashboardHeader href="/orders" title="Order Details" />
 
-      <OrderProgress status={order.status} deliveredAt={order.deliveredAt} isDelivered={order.isDelivered} />
+      <OrderProgress status={order.status} deliveredAt={order.deliveredAt||""} isDelivered={order.isDelivered} />
 
-      <OrderedProducts order={order} />
+       <OrderedProducts order={order} />
 
-      <OrderSummery order={order} />
+      <OrderSummery order={order} /> 
     </Fragment>;
 }

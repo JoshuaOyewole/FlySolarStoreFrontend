@@ -48,7 +48,7 @@ export default function ShopLayout1({ children }) {
       </MobileHeader.Left> */}
 
       <Link href="/">
-        <Image width={60} height={44} src={mobileNavigation.logo} alt="logo" />
+        <Image width={120} height={104} src={mobileNavigation.logo} alt="logo" />
       </Link>
       <Box display="flex" justifyContent="end" flex={1}>
         <HeaderSearch>

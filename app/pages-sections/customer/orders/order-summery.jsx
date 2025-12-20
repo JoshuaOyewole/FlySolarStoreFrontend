@@ -11,77 +11,97 @@ import { currency } from "../../../lib";
 
 // CUSTOM DATA MODEL
 
+// ==============================================================
 
 // ==============================================================
 
-
-// ==============================================================
-
-export default function OrderSummery({
-  order
-}) {
-  return <Grid container spacing={3}>
-      <Grid size={{
-      md: 6,
-      xs: 12
-    }}>
-        <Card elevation={0} sx={{
-        p: 3,
-        border: "1px solid",
-        borderColor: "grey.100"
-      }}>
-          <Typography variant="h5" sx={{
-          mb: 2
-        }}>
+export default function OrderSummery({ order }) {
+  return (
+    <Grid container spacing={3}>
+      <Grid
+        size={{
+          md: 6,
+          xs: 12,
+        }}
+      >
+        <Card
+          elevation={0}
+          sx={{
+            p: 3,
+            border: "1px solid",
+            borderColor: "grey.100",
+          }}
+        >
+          <Typography
+            variant="h5"
+            sx={{
+              mb: 2,
+            }}
+          >
             Shipping Address
           </Typography>
 
-          <Typography variant="body1">{order.shippingAddress}</Typography>
+          <Typography variant="body1">{`${order.shippingAddress.address}, ${order.shippingAddress.state} ${order.shippingAddress.country.label}`}</Typography>
         </Card>
       </Grid>
 
-      <Grid size={{
-      md: 6,
-      xs: 12
-    }}>
-        <Card elevation={0} sx={{
-        p: 3,
-        border: "1px solid",
-        borderColor: "grey.100"
-      }}>
-          <Typography variant="h5" sx={{
-          mb: 2
-        }}>
+      <Grid
+        size={{
+          md: 6,
+          xs: 12,
+        }}
+      >
+        <Card
+          elevation={0}
+          sx={{
+            p: 3,
+            border: "1px solid",
+            borderColor: "grey.100",
+          }}
+        >
+          <Typography
+            variant="h5"
+            sx={{
+              mb: 2,
+            }}
+          >
             Total Summary
           </Typography>
 
           <ListItem title="Subtotal:" value={currency(order.totalPrice)} />
-          <ListItem title="Shipping fee:" value={currency(0)} />
+          {order.shippingCost > 0 && (
+            <ListItem
+              title="Shipping fee:"
+              value={currency(order.shippingCost)}
+            />
+          )}
           <ListItem title="Discount:" value={currency(order.discount)} />
 
-          <Divider sx={{
-          mb: 1
-        }} />
+          <Divider
+            sx={{
+              mb: 1,
+            }}
+          />
 
           <FlexBetween mb={2}>
             <Typography variant="h6">Total</Typography>
             <Typography variant="h6">{currency(order.totalPrice)}</Typography>
           </FlexBetween>
 
-          <p>Paid by Credit/Debit Card</p>
+         {/*  <p>Paid by Credit/Debit Card</p> */}
         </Card>
       </Grid>
-    </Grid>;
+    </Grid>
+  );
 }
-function ListItem({
-  title,
-  value
-}) {
-  return <FlexBetween mb={1}>
+function ListItem({ title, value }) {
+  return (
+    <FlexBetween mb={1}>
       <Typography color="text.secondary" variant="body1">
         {title}
       </Typography>
 
       <Typography variant="h6">{value}</Typography>
-    </FlexBetween>;
+    </FlexBetween>
+  );
 }

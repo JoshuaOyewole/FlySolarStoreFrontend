@@ -39,7 +39,7 @@ export default function OrderedProducts({
       <FlexBetween px={3} py={2} flexWrap="wrap" gap={1} bgcolor="grey.50">
         <Item title="Order ID:" value={id} />
         <Item title="Placed on:" value={format(new Date(createdAt), "dd MMM, yyyy")} />
-        <Item title="Delivered on:" value={deliveredAt ? format(new Date(deliveredAt), "dd MMM, yyyy") : "None"} />
+       {deliveredAt && <Item title="Delivered on:" value={deliveredAt ? format(new Date(deliveredAt), "dd MMM, yyyy") : "None"} />}
       </FlexBetween>
 
       {items.map((item, ind) => <FlexBetween px={2} py={1} flexWrap="wrap" key={ind} gap={1}>
@@ -67,9 +67,9 @@ export default function OrderedProducts({
               Product properties: {item.variant}
             </Typography>}
 
-          <Button variant="text" color="primary">
+        {/*   <Button variant="text" color="primary">
             Write a Review
-          </Button>
+          </Button> */}
         </FlexBetween>)}
     </Card>;
 }
