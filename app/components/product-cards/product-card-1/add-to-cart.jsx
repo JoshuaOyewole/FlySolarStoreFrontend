@@ -8,21 +8,12 @@ import Add from "@mui/icons-material/Add";
 // GLOBAL CUSTOM HOOKS
 import useCart from "../../../hooks/useCart";
 
-export default function AddToCart({
-  product
-}) {
-  const {
-    id,
-    slug,
-    title,
-    price,
-    thumbnail
-  } = product;
-  const {
-    dispatch
-  } = useCart();
+export default function AddToCart({ product }) {
+  const { id, slug, title, price, thumbnail, category } = product;
+  const { dispatch } = useCart();
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
+
   const handleAddToCart = () => {
     setLoading(true);
     setTimeout(() => {
@@ -33,20 +24,29 @@ export default function AddToCart({
           slug,
           price,
           title,
+          category,
           thumbnail,
-          qty: 1
-        }
+          qty: 1,
+        },
       });
       router.push("/mini-cart", {
-        scroll: false
+        scroll: false,
       });
       setLoading(false);
     }, 500);
   };
-  return <Button color="primary" variant="outlined" loading={isLoading} onClick={handleAddToCart} sx={{
-    padding: "3px",
-    alignSelf: "self-end"
-  }}>
+  return (
+    <Button
+      color="primary"
+      variant="outlined"
+      loading={isLoading}
+      onClick={handleAddToCart}
+      sx={{
+        padding: "3px",
+        alignSelf: "self-end",
+      }}
+    >
       <Add fontSize="small" />
-    </Button>;
+    </Button>
+  );
 }

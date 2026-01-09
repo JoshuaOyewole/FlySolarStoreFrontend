@@ -1,6 +1,13 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+} from "react";
 import { authAPI } from "../lib/api";
 import { toast } from "react-toastify";
 
@@ -10,10 +17,14 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const hasCheckedAuth = useRef(false);
 
-  // Check if user is logged in on mount
+  // Check if user is logged in on mount (only once)
   useEffect(() => {
-    checkAuth();
+    if (!hasCheckedAuth.current) {
+      checkAuth();
+      hasCheckedAuth.current = true;
+    }
   }, []);
 
   const checkAuth = async () => {
@@ -41,6 +52,7 @@ export const AuthProvider = ({ children }) => {
       if (response.success && response.token) {
         setUser(response.data.user);
         setIsAuthenticated(true);
+        setLoading(false);
         toast.success("Login successful!");
         return { success: true, user: response.data.user };
       }
@@ -57,11 +69,13 @@ export const AuthProvider = ({ children }) => {
       if (response.success && response.token) {
         setUser(response.data.user);
         setIsAuthenticated(true);
+        setLoading(false);
         toast.success("Registration successful!");
         return { success: true, user: response.data.user };
       }
     } catch (error) {
-      const errorMessage = error.message || "Registration failed. Please try again.";
+      const errorMessage =
+        error.message || "Registration failed. Please try again.";
       toast.error(errorMessage);
       throw error;
     }
@@ -69,7 +83,8 @@ export const AuthProvider = ({ children }) => {
 
   const logout = useCallback(async () => {
     try {
-      await authAPI.logout();
+      const res = await authAPI.logout();
+      console.log("Logout response:", res);
     } catch (error) {
       console.error("Logout error:", error);
     } finally {

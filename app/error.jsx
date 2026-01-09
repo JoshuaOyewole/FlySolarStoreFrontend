@@ -35,6 +35,7 @@ export default function Error({
   return <StyledRoot>
       <Card>
         <Typography variant="h1">Something went wrong!</Typography>
+   
         <Button color="error" variant="contained" onClick={() => reset()}>
           Try again
         </Button>

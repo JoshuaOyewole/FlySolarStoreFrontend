@@ -5,7 +5,7 @@ import { ordersAPI } from "../../../lib/api";
 export async function generateMetadata({ params }) {
   try {
     const { id } = await params;
-    console.log("generateMetadata - Order ID:", id);
+   // console.log("generateMetadata - Order ID:", id);
     const response = await ordersAPI.getById(id);
     console.log("generateMetadata - Order response:", response);
     if (!response || !response.data) {
@@ -38,7 +38,7 @@ export default async function OrderDetails({ params }) {
     const { id } = await params;
     const response = await ordersAPI.getById(id);
     
-    console.log("OrderDetails - Order response:", response);
+   // console.log("OrderDetails - Order response:", response);
     if (!response || !response.data) {
       notFound();
     }

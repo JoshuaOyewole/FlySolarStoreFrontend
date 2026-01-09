@@ -154,7 +154,7 @@ export const totalOrderChartOptions = theme => ({
     }
   },
   yaxis: {
-    min: 0,
+    min: 10,
     max: 10000,
     show: false,
     tickAmount: 4,
@@ -277,9 +277,9 @@ export const analyticsChartOptions = (theme, categories) => ({
     }
   },
   yaxis: {
-    min: 0,
+    min: 10,
     show: true,
-    max: 100000,
+    max: 1000000,
     tickAmount: 6,
     opposite: theme.direction === "rtl",
     labels: {

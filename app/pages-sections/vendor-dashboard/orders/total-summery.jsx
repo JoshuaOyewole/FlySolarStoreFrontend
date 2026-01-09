@@ -1,6 +1,6 @@
 import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
-import TextField from "@mui/material/TextField";
+//import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
 // GLOBAL CUSTOM COMPONENTS
@@ -9,64 +9,74 @@ import { FlexBetween, FlexBox } from "../../../components/flex-box";
 // CUSTOM UTILS LIBRARY FUNCTION
 import { currency } from "../../../lib";
 
+// ==============================================================
 
 // ==============================================================
 
-
-// ==============================================================
-
-export default function TotalSummery({
-  total,
-  discount
-}) {
-  return <Card sx={{
-    px: 3,
-    py: 4
-  }}>
-      <Typography variant="h5" sx={{
-      mb: 2
-    }}>
+export default function TotalSummery({ total, discount, shippingFee = 0 }) {
+  return (
+    <Card
+      sx={{
+        px: 3,
+        py: 4,
+      }}
+    >
+      <Typography
+        variant="h5"
+        sx={{
+          mb: 2,
+        }}
+      >
         Total Summary
       </Typography>
 
       <FlexBetween mb={1.5}>
-        <Typography variant="body1" sx={{
-        color: "grey.600"
-      }}>
+        <Typography
+          variant="body1"
+          sx={{
+            color: "grey.600",
+          }}
+        >
           Subtotal:
         </Typography>
         <Typography variant="h6">{currency(total)}</Typography>
       </FlexBetween>
 
       <FlexBetween mb={1.5}>
-        <Typography variant="body1" sx={{
-        color: "grey.600"
-      }}>
+        <Typography
+          variant="body1"
+          sx={{
+            color: "grey.600",
+          }}
+        >
           Shipping fee:
         </Typography>
 
         <FlexBox alignItems="center" gap={1} maxWidth={100}>
-          <p>$</p>
-          <TextField color="info" defaultValue={10} type="number" fullWidth />
+          <Typography variant="h6">{currency(shippingFee)}</Typography>
         </FlexBox>
       </FlexBetween>
 
       <FlexBetween mb={1.5}>
-        <Typography variant="body1" sx={{
-        color: "grey.600"
-      }}>
+        <Typography
+          variant="body1"
+          sx={{
+            color: "grey.600",
+          }}
+        >
           Discount(%):
         </Typography>
 
         <FlexBox alignItems="center" gap={1} maxWidth={100}>
-          <p>$</p>
-          <TextField color="info" defaultValue={discount} type="number" fullWidth />
+          <Typography variant="h6">{currency(discount)}</Typography>
         </FlexBox>
       </FlexBetween>
 
-      <Divider sx={{
-      my: 2
-    }} />
+      <Divider
+        sx={{
+          my: 2,
+        }}
+      />
 
       <FlexBetween mb={2}>
         <Typography variant="h6">Total</Typography>
@@ -74,5 +84,6 @@ export default function TotalSummery({
       </FlexBetween>
 
       <p>Paid by Credit/Debit Card</p>
-    </Card>;
+    </Card>
+  );
 }

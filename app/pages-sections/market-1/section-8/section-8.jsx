@@ -11,14 +11,14 @@ export default async function Section8() {
   const blogs = articles.articles;
   if (!blogs || blogs.length === 0) return null;
   return <Container>
-      <SectionHeader title="Read our blogs" seeMoreLink="#" color="#CC5500"/>
+      <SectionHeader title="Read our blogs" seeMoreLink="/blog" color="#CC5500"/>
 
       <Grid container spacing={3}>
         {blogs.map(item => <Grid size={{
         md: 4,
         xs: 12
       }} key={item.id}>
-            <BlogCard1 title={item.title} date={item.createdAt} image={item.thumbnail} description={item.description} />
+            <BlogCard1 title={item.title} date={item.createdAt} image={item.thumbnail} description={item.description} href={"1"} />
           </Grid>)}
       </Grid>
     </Container>;

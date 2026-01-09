@@ -89,7 +89,7 @@ export default function ProductIntro({ product }) {
 
           {/* PRODUCT VARIANTS */}
           {/*  <ProductVariantSelector /> */}
-          <ProductSummary />
+          <ProductSummary summary={product.summary} />
           {/* PRICE & STOCK */}
           <div className="price">
             <Typography

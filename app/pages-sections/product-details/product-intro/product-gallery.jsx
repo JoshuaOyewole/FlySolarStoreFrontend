@@ -15,6 +15,7 @@ export default function ProductGallery({ images }) {
   const [currentImage, setCurrentImage] = useState(0);
   const [openZoom, setOpenZoom] = useState(false);
 
+
   const handleOpenZoom = () => setOpenZoom(true);
   const handleCloseZoom = () => setOpenZoom(false);
 

@@ -47,7 +47,7 @@ export async function generateMetadata({ params }) {
 
 export default async function ProductDetails({ params }) {
   const { slug } = await params;
-
+ 
   try {
     // Fetch product details
     const productResponse = await fetch(

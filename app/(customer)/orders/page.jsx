@@ -1,49 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { OrdersPageView } from "../../pages-sections/customer/orders/page-view";
 import { ordersAPI } from "../../lib/api";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Orders() {
   const searchParams = useSearchParams();
-  const [orders, setOrders] = useState([]);
-  const [pagination, setPagination] = useState({ totalPages: 1, currentPage: 1 });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const page = searchParams.get("page") || "1";
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        setLoading(true);
-        const page = searchParams.get("page") || 1;
-        
-        const response = await ordersAPI.getMyOrders({ page, limit: 10 });
-        
-        if (response && response.data) {
-          setOrders(response.data.orders || []);
-          setPagination(response.data.pagination || { totalPages: 1, currentPage: 1 });
-        } else {
-          setError("Unable to load orders. Please try again later.");
-        }
-      } catch (err) {
-        console.error('Error loading orders:', err);
-        setError("Unable to load orders. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const { data, isPending, error } = useQuery({
+    queryKey: ["my-orders", page],
+    queryFn: () => ordersAPI.getMyOrders({ page, limit: 10 }),
+  });
 
-    fetchOrders();
-  }, [searchParams]);
+  const pagination = data?.data?.pagination || {
+    totalPages: 1,
+    currentPage: 1,
+  };
 
-  if (loading) {
-    return <OrdersPageView orders={[]} totalPages={0} currentPage={1} loading={true} />;
+  if (isPending) {
+    return (
+      <OrdersPageView
+        orders={[]}
+        totalPages={0}
+        currentPage={1}
+        loading={true}
+      />
+    );
   }
 
   return (
-    <OrdersPageView 
-      orders={orders} 
+    <OrdersPageView
+      orders={data?.data?.orders || []}
       totalPages={pagination.totalPages}
       currentPage={pagination.currentPage}
       error={error}

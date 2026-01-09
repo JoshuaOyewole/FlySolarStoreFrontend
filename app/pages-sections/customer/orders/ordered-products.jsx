@@ -24,12 +24,16 @@ import { currency } from "../../../lib";
 export default function OrderedProducts({
   order
 }) {
+
+console.log("Order:", order);
+
   const {
     id,
     createdAt,
     items,
     deliveredAt
   } = order;
+  
   return <Card elevation={0} sx={{
     p: 0,
     mb: 4,
@@ -73,6 +77,7 @@ export default function OrderedProducts({
         </FlexBetween>)}
     </Card>;
 }
+
 function Item({
   title,
   value

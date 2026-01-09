@@ -1,9 +1,15 @@
-
-
 const nextConfig = {
   /* config options here */
   images: {
-    qualities: [25, 50,70, 75, 85, 100],
+    qualities: [25, 50, 70, 75, 85, 100],
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
   },
   experimental: {
     optimizeCss: false,

@@ -3,7 +3,7 @@
 import CategoryForm from "../category-form";
 import PageWrapper from "../../page-wrapper";
 export default function CreateCategoryPageView() {
-  return <PageWrapper title="Create Category">
+  return <PageWrapper title="Create Category" href="/admin/categories">
       <CategoryForm />
     </PageWrapper>;
 }

@@ -29,7 +29,7 @@ export default function ProductCard8({
     title,
     price,
     thumbnail,
-    categories,
+    category,
     reviews,
     rating
   } = product;
@@ -44,7 +44,7 @@ export default function ProductCard8({
 
       <CardContent>
         {/* PRODUCT CATEGORY */}
-        {categories.length > 0 ? <p className="category">{categories[0]}</p> : null}
+        {category ? <p className="category">{category}</p> : null}
 
         {/* PRODUCT TITLE / NAME */}
         <p className="title">{title}</p>

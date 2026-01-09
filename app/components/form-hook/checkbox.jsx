@@ -4,11 +4,6 @@ import MuiCheckbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 
-// ==============================================================
-
-
-// ==============================================================
-
 export default function Checkbox({
   name,
   size,

@@ -59,7 +59,7 @@ export function Navigation() {
 
   const handleLogout = async () => {
     await logout();
-    router.push("/login");
+    router.push("/");
   };
 
   return <MainContainer>

@@ -242,7 +242,7 @@ export default function ProductsPageView({ products: initialProducts }) {
             <>
               <Grid container spacing={3}>
                 {paginatedProducts.map((product) => (
-                  <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={product.id}>
+                  <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={product._id}>
                     <ProductCard17 product={product} />
                   </Grid>
                 ))}

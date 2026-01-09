@@ -33,7 +33,7 @@ export default function ProductDetailsPageView(props) {
       {/* AVAILABLE SHOPS AREA */}
       {/*  <AvailableShops /> */}
       <ProductDescription
-        productDescription={props.product.productDescription}
+        productDescription={props.product.description}
       />
       {/* RELATED PRODUCTS AREA */}
       <RelatedProducts products={props.relatedProducts} />

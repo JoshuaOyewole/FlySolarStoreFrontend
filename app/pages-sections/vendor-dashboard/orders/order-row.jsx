@@ -9,39 +9,42 @@ import RemoveRedEye from "@mui/icons-material/RemoveRedEye";
 import { currency } from "../../../lib";
 
 // STYLED COMPONENTS
-import { StatusWrapper, StyledIconButton, StyledTableCell, StyledTableRow } from "../styles";
+import {
+  StatusWrapper,
+  StyledIconButton,
+  StyledTableCell,
+  StyledTableRow,
+} from "../styles";
+import { isValid } from "date-fns";
 
 
-// ========================================================================
+export default function OrderRow({ order }) {
 
+  const { amount, id, qty, purchaseDate, billingAddress, status } = order;
 
-// ========================================================================
-
-export default function OrderRow({
-  order
-}) {
-  const {
-    amount,
-    id,
-    qty,
-    purchaseDate,
-    billingAddress,
-    status
-  } = order;
-  return <StyledTableRow tabIndex={-1} role="checkbox">
+  return (
+    <StyledTableRow tabIndex={-1} role="checkbox">
       <StyledTableCell align="left">#{id.split("-")[0]}</StyledTableCell>
       <StyledTableCell align="left">{qty}</StyledTableCell>
 
-      <StyledTableCell align="left" sx={{
-      fontWeight: 400
-    }}>
-        {format(new Date(purchaseDate), "dd MMM yyyy")}
+      <StyledTableCell
+        align="left"
+        sx={{
+          fontWeight: 400,
+        }}
+      >
+        {isValid(new Date(purchaseDate))
+          ? format(new Date(purchaseDate), "dd MMM yyyy")
+          : "Invalid date"}
       </StyledTableCell>
 
-      <StyledTableCell align="left" sx={{
-      fontWeight: 400
-    }}>
-        {billingAddress}
+      <StyledTableCell
+        align="left"
+        sx={{
+          fontWeight: 400,
+        }}
+      >
+        {`${billingAddress.address} ${billingAddress.state}, ${billingAddress.country.label}`}
       </StyledTableCell>
 
       <StyledTableCell align="left">{currency(amount)}</StyledTableCell>
@@ -57,9 +60,10 @@ export default function OrderRow({
           </StyledIconButton>
         </Link>
 
-        <StyledIconButton>
+       {/*  <StyledIconButton>
           <Delete />
-        </StyledIconButton>
+        </StyledIconButton> */}
       </StyledTableCell>
-    </StyledTableRow>;
+    </StyledTableRow>
+  );
 }

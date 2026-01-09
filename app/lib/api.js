@@ -12,18 +12,36 @@ const API_BASE_URL =
 async function apiRequest(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
 
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
-    ...options,
+  const isFormData = options.body instanceof FormData;
+
+  /*  const headers = {
+    "Content-Type": "application/json",
+    ...options.headers,
+  }; */
+
+  const headers = {
+    ...(isFormData ? {} : { "Content-Type": "application/json" }),
+    ...options.headers,
   };
 
-  // Include credentials for cookies if specified
-  if (options.credentials) {
-    config.credentials = options.credentials;
+  // ✅ If running on the server, forward cookies manually
+  if (typeof window === "undefined") {
+    const cookieStore = cookies();
+    const cookieHeader = cookieStore
+      .getAll()
+      .map((c) => `${c.name}=${c.value}`)
+      .join("; ");
+
+    if (cookieHeader) {
+      headers.Cookie = cookieHeader;
+    }
   }
+
+  const config = {
+    ...options,
+    headers,
+    cache: options.cache ?? "no-store",
+  };
 
   try {
     const response = await fetch(url, config);
@@ -32,16 +50,15 @@ async function apiRequest(endpoint, options = {}) {
     if (!response.ok) {
       throw {
         status: response.status,
-        message: data.error.message || "An error occurred",
-        errors: data.errors || [],
+        message: data?.message || "An error occurred",
+        errors: data?.errors || [],
       };
     }
 
     return data;
   } catch (error) {
-    if (error.status) {
-      throw error;
-    }
+    if (error.status) throw error;
+
     throw {
       status: 500,
       message: error.message || "Network error occurred",
@@ -172,6 +189,29 @@ export const productsAPI = {
       method: "GET",
     });
   },
+
+  create: async (productData) => {
+    return apiRequest("/products/admin/products", {
+      method: "POST",
+      body: productData,
+      credentials: "include",
+    });
+  },
+
+  edit: async (id, productData) => {
+    return apiRequest(`/products/admin/products/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(productData),
+      credentials: "include",
+    });
+  },
+
+  delete: async (id) => {
+    return apiRequest(`/products/admin/product/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+  },
 };
 
 /**
@@ -225,6 +265,40 @@ export const ordersAPI = {
   },
 };
 
+/* Categories API */
+
+export const categoriesAPI = {
+  getAll: async (params = {}) => {
+    const queryString = new URLSearchParams(params).toString();
+    return apiRequest(
+      `/admin/categories${queryString ? `?${queryString}` : ""}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+  },
+  create: async (categoryData) => {
+    return apiRequest("/admin/categories/create", {
+      method: "POST",
+      body: JSON.stringify(categoryData),
+      credentials: "include",
+    });
+  },
+  edit: async (id, categoryData) => {
+    return apiRequest(`/admin/categories/edit/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(categoryData),
+      credentials: "include",
+    });
+  },
+  delete: async (id) => {
+    return apiRequest(`/admin/categories/delete/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+  },
+};
 /**
  * Blog API
  */

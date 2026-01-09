@@ -19,6 +19,7 @@ export function OrdersPageView({
   error,
   loading,
 }) {
+  //console.log("orders ==> ", orders);
   return (
     <Fragment>
       <DashboardHeader Icon={Packages} title="My Orders" />

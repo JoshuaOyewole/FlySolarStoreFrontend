@@ -298,6 +298,7 @@ export default function BlogPageView() {
                     image={blog.image}
                     title={blog.title}
                     date={blog.date}
+                    href={blog.id}
                     description={blog.description}
                   />
                 </Grid>
@@ -329,7 +330,7 @@ export default function BlogPageView() {
           </BlogGrid>
 
           {/* LOAD MORE */}
-          <Box sx={{ textAlign: "center", mt: 6 }}>
+        {/*   <Box sx={{ textAlign: "center", mt: 6 }}>
             <Typography
               variant="body1"
               sx={{
@@ -343,7 +344,7 @@ export default function BlogPageView() {
             >
               Load More Articles
             </Typography>
-          </Box>
+          </Box> */}
         </Container>
       </Box>
 

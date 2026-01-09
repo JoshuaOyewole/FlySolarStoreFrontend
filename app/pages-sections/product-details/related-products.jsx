@@ -24,7 +24,7 @@ export default function RelatedProducts({
         md: 4,
         sm: 6,
         xs: 12
-      }} key={product.id}>
+      }} key={product._id}>
             <ProductCard1 product={product} />
           </Grid>)}
       </Grid>

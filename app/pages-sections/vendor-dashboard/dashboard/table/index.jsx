@@ -7,7 +7,7 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import Done from "@mui/icons-material/Done";
-
+import { format } from "date-fns";
 // GLOBAL CUSTOM HOOK
 import useMuiTable from "../../../../hooks/useMuiTable";
 
@@ -69,6 +69,8 @@ export default function DataListTable({
   tableHeading,
   type
 }) {
+
+
   const {
     order,
     orderBy,
@@ -77,12 +79,15 @@ export default function DataListTable({
   } = useMuiTable({
     listData: dataList
   });
+
+
   let BODY_CONTENT = null;
 
   /* FOR STOCK OUT TABLE */
   if (type === "STOCK_OUT") {
     BODY_CONTENT = <TableBody>
         {filteredList.map((row, index) => {
+
         const {
           amount,
           stock,
@@ -107,22 +112,24 @@ export default function DataListTable({
     BODY_CONTENT = <TableBody>
         {filteredList.map((row, index) => {
         const {
-          id,
+          orderId,
           amount,
-          payment,
-          product
+          paymentStatus,
+          productNames,
+          purchaseDate
         } = row;
         return <StyledTableRow key={index}>
-              <StyledTableCell align="left">{id}</StyledTableCell>
-              <StyledTableCell align="left">{product}</StyledTableCell>
+              <StyledTableCell align="left">{format(new Date(purchaseDate), "do MMM. yyyy | h:mma")}</StyledTableCell>
+              <StyledTableCell align="left">{orderId}</StyledTableCell>
+              <StyledTableCell align="left">{productNames}</StyledTableCell>
 
               <StyledTableCell align="left">
-                <StatusWrapper payment={payment === "Pending" ? 1 : 0}>
-                  <div>{payment}</div>
-                  {payment === "Pending" && <Reload sx={{
+                <StatusWrapper payment={paymentStatus === "Pending" ? 1 : 0}>
+                  <div>{paymentStatus}</div>
+                  {paymentStatus === "Pending" && <Reload sx={{
                 fontSize: 13
               }} />}
-                  {payment !== "Pending" && <Done sx={{
+                  {paymentStatus !== "Pending" && <Done sx={{
                 fontSize: 13
               }} />}
                 </StatusWrapper>

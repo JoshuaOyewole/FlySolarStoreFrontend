@@ -16,19 +16,12 @@ import FavoriteButton from "./favorite-button";
 // STYLED COMPONENTS
 import { ImageWrapper, ContentWrapper, StyledCard, HoverIconWrapper } from "./styles";
 
-// CUSTOM DATA MODEL
-
-
-// ========================================================
-
-
-// ========================================================
-
 export default function ProductCard1({
   product,
   showProductSize,
   showRating = true
 }) {
+
   const {
     slug,
     title,
@@ -37,6 +30,8 @@ export default function ProductCard1({
     rating,
     discount
   } = product;
+
+
   return <StyledCard>
       <ImageWrapper>
         {/* DISCOUNT PERCENT CHIP IF AVAILABLE */}

@@ -2,7 +2,7 @@
 
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
+//import Button from "@mui/material/Button";
 
 // LOCAL CUSTOM COMPONENT
 import OrderActions from "../order-actions";
@@ -13,51 +13,63 @@ import ShippingAddress from "../shipping-address";
 
 // CUSTOM DATA MODEL
 
+// ==============================================================
 
 // ==============================================================
 
+export default function OrderDetailsPageView({ order }) {
+  const details = order.data;
 
-// ==============================================================
-
-export default function OrderDetailsPageView({
-  order
-}) {
-  return <PageWrapper title="Order Details">
+  return (
+    <PageWrapper title="Order Details" href={"/admin/orders"} >
       <Grid container spacing={3}>
         <Grid size={12}>
-          <Card sx={{
-          p: 3
-        }}>
+          <Card
+            sx={{
+              p: 3,
+            }}
+          >
             {/* ADD PRODUCT & CHANGE ORDER STATUS ACTION  */}
-            <OrderActions id={order.id} createdAt={order.createdAt} status={order.status} />
+            <OrderActions
+              id={details._id}
+              createdAt={details.createdAt}
+              status={details.status}
+            />
 
             {/* ORDERED PRODUCT LIST */}
-            {order.items.map((item, index) => <OrderedProduct product={item} key={index} />)}
+            {details.items.map((item) => (
+              <OrderedProduct product={item} key={item._id} />
+            ))}
           </Card>
         </Grid>
 
         {/* SHIPPING ADDRESS & CUSTOMER NOTES */}
-        <Grid size={{
-        md: 6,
-        xs: 12
-      }}>
-          <ShippingAddress address={order.shippingAddress} />
+        <Grid
+          size={{
+            md: 6,
+            xs: 12,
+          }}
+        >
+          <ShippingAddress address={details.shippingAddress} />
         </Grid>
 
         {/* TOTAL SUMMERY OF ORDER */}
-        <Grid size={{
-        md: 6,
-        xs: 12
-      }}>
-          <TotalSummery total={order.totalPrice} discount={order.discount} />
+        <Grid
+          size={{
+            md: 6,
+            xs: 12,
+          }}
+        >
+          <TotalSummery total={details.total} discount={details.discount} />
         </Grid>
 
         {/* CHANGE BUTTON */}
-        <Grid size={12}>
+        {/*  <Grid size={12}>
           <Button variant="contained" color="info">
             Save Changes
           </Button>
-        </Grid>
+        </Grid> */}
       </Grid>
-    </PageWrapper>;
+    </PageWrapper>
+  );
 }

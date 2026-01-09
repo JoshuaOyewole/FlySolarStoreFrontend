@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import clsx from "clsx";
+//import clsx from "clsx";
 
 // MUI
 import Button from "@mui/material/Button";
@@ -16,7 +16,7 @@ import {
   FormProvider,
   TextField,
   Autocomplete,
-  Checkbox,
+  //Checkbox,
 } from "../../../components/form-hook";
 import useCart from "../../../hooks/useCart";
 
@@ -57,6 +57,7 @@ export default function CheckoutForm() {
     defaultValues: initialValues,
     resolver: yupResolver(validationSchema),
   });
+
   const {
     watch,
     handleSubmit,
@@ -147,8 +148,6 @@ export default function CheckoutForm() {
 
   const handleSubmitForm = handleSubmit(
     async (values) => {
-      console.log("Submitting order...");
-
       try {
         const { cart: cartData } = state;
 
@@ -173,6 +172,7 @@ export default function CheckoutForm() {
             productId: item.id,
             qty: item.qty,
           })),
+          total,
           shippingAddress: {
             name: values.shipping_name,
             email: values.shipping_email,
@@ -190,7 +190,7 @@ export default function CheckoutForm() {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "credentials": "include",
+              credentials: "include",
             },
             credentials: "include",
             body: JSON.stringify(orderData),
@@ -206,6 +206,7 @@ export default function CheckoutForm() {
 
         // Backend returns the order with generated order number
         const createdOrder = result.data;
+
 
         // Store order details in sessionStorage using BACKEND order number
         sessionStorage.setItem(
@@ -304,7 +305,7 @@ export default function CheckoutForm() {
         </FormWrapper>
       </CardRoot>
 
-     {/*  <CardRoot elevation={0}>
+      {/*  <CardRoot elevation={0}>
          <Typography variant="h5">Billing Address</Typography>
 
         <Checkbox

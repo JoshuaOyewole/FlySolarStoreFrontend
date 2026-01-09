@@ -8,21 +8,21 @@ import { NavLink3 } from "../../nav-link";
 // STYLED COMPONENTS
 import { RootStyle, ImageBox, DateBox } from "./styles";
 
+// =====================================================
 
 // =====================================================
 
-
-// =====================================================
-
-export default function BlogCard1({
-  image,
-  title,
-  date,
-  description
-}) {
-  return <RootStyle>
+export default function BlogCard1({ image, title, href, date, description }) {
+  return (
+    <RootStyle>
       <ImageBox>
-        <Image fill src={image} alt={title} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" quality={85} />
+        <Image
+          fill
+          src={image}
+          alt={title}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          quality={85}
+        />
 
         <DateBox>
           <p>{date}</p>
@@ -30,14 +30,15 @@ export default function BlogCard1({
       </ImageBox>
 
       <div className="content">
-        <Link href="/">
+        <Link href={`/blog/${href}`} className="title-link">
           <Typography noWrap variant="body1" fontWeight={600} fontSize={18}>
             {title}
           </Typography>
         </Link>
 
         <p className="description">{description}</p>
-        <NavLink3 text="Read More" href="/" />
+        <NavLink3 text="Read More" href={`/blog/${href}`} />
       </div>
-    </RootStyle>;
+    </RootStyle>
+  );
 }
