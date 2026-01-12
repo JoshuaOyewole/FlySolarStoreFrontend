@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 // MUI
@@ -18,16 +18,12 @@ import InputAdornment from "@mui/material/InputAdornment";
 // MUI ICON COMPONENTS
 import Apps from "@mui/icons-material/Apps";
 import ViewList from "@mui/icons-material/ViewList";
-import FilterList from "@mui/icons-material/FilterList";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 
 // GLOBAL CUSTOM COMPONENTS
-import Sidenav from "../../components/side-nav";
 import { FlexBetween, FlexBox } from "../../components/flex-box";
-import ProductFilters from "../../components/products-view/filters";
-import ProductsGridView from "../../components/products-view/products-grid-view";
-import ProductsListView from "../../components/products-view/products-list-view";
+import ProductCard17 from "../../components/product-cards/product-card-17";
 
 // STYLED COMPONENTS
 import {
@@ -40,18 +36,18 @@ import {
 
 const SORT_OPTIONS = [
   { label: "Relevance", value: "relevance" },
-  { label: "Newest First", value: "date" },
-  { label: "Price: Low to High", value: "asc" },
-  { label: "Price: High to Low", value: "desc" },
+  { label: "Newest First", value: "newest" },
+  { label: "Price: Low to High", value: "price-low" },
+  { label: "Price: High to Low", value: "price-high" },
+  { label: "Most Popular", value: "popular" },
 ];
 
+const ITEMS_PER_PAGE = 12;
+
 export default function ProductSearchPageView({
-  filters,
-  products,
-  pageCount,
-  lastIndex,
-  firstIndex,
-  totalProducts,
+  initialProducts,
+  totalProducts: initialTotal,
+  categories,
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -60,15 +56,16 @@ export default function ProductSearchPageView({
   const [searchInput, setSearchInput] = useState(
     searchParams.get("q") || ""
   );
+  const [page, setPage] = useState(1);
 
   const query = searchParams.get("q");
-  const page = searchParams.get("page") || "1";
   const view = searchParams.get("view") || "grid";
   const sort = searchParams.get("sort") || "relevance";
   const category = searchParams.get("category");
-  const sale = searchParams.get("sale");
+  const minPrice = searchParams.get("minPrice");
+  const maxPrice = searchParams.get("maxPrice");
 
-  const handleChangeSearchParams = (key, value) => {
+  const handleChangeSearchParams = useCallback((key, value) => {
     if (!key) return;
     const params = new URLSearchParams(searchParams);
 
@@ -80,32 +77,90 @@ export default function ProductSearchPageView({
 
     // Reset to page 1 when filters change
     if (key !== "page" && key !== "view") {
-      params.set("page", "1");
+      setPage(1);
     }
 
     router.push(`${pathname}?${params.toString()}`);
-  };
+  }, [searchParams, pathname, router]);
 
-  const handleSearch = (e) => {
+  const handleSearch = useCallback((e) => {
     e.preventDefault();
     if (searchInput.trim()) {
       handleChangeSearchParams("q", searchInput.trim());
+      setPage(1);
     }
-  };
+  }, [searchInput, handleChangeSearchParams]);
 
-  const clearSearch = () => {
+  const clearSearch = useCallback(() => {
     setSearchInput("");
     const params = new URLSearchParams(searchParams);
     params.delete("q");
+    setPage(1);
     router.push(`${pathname}?${params.toString()}`);
-  };
+  }, [searchParams, pathname, router]);
+
+  // Filter and sort products
+  const filteredProducts = useMemo(() => {
+    let filtered = [...(initialProducts || [])];
+
+    // Filter by category
+    if (category) {
+      filtered = filtered.filter((product) =>
+        product.category?.toLowerCase().includes(category.toLowerCase())
+      );
+    }
+
+    // Filter by price range
+    if (minPrice) {
+      filtered = filtered.filter((product) => product.price >= parseFloat(minPrice));
+    }
+    if (maxPrice) {
+      filtered = filtered.filter((product) => product.price <= parseFloat(maxPrice));
+    }
+
+    // Sort products
+    switch (sort) {
+      case "price-low":
+        filtered.sort((a, b) => a.price - b.price);
+        break;
+      case "price-high":
+        filtered.sort((a, b) => b.price - a.price);
+        break;
+      case "popular":
+        filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+        break;
+      case "newest":
+        filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        break;
+      case "relevance":
+      default:
+        // Keep original order (already sorted by relevance from backend)
+        break;
+    }
+
+    return filtered;
+  }, [initialProducts, category, minPrice, maxPrice, sort]);
+
+  // Paginate products
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const paginatedProducts = useMemo(() => {
+    return filteredProducts.slice(
+      (page - 1) * ITEMS_PER_PAGE,
+      page * ITEMS_PER_PAGE
+    );
+  }, [filteredProducts, page]);
+
+  const handlePageChange = useCallback((event, value) => {
+    setPage(value);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   const activeFiltersCount = useMemo(() => {
     let count = 0;
     if (category) count++;
-    if (sale) count++;
+    if (minPrice || maxPrice) count++;
     return count;
-  }, [category, sale]);
+  }, [category, minPrice, maxPrice]);
 
   return (
     <Box>
@@ -190,7 +245,7 @@ export default function ProductSearchPageView({
           >
             <StatsBox>
               <Typography variant="h6" sx={{ fontSize: { xs: 18, sm: 20 } }}>
-                {totalProducts} Products Found
+                {filteredProducts.length} Products Found
               </Typography>
               {activeFiltersCount > 0 && (
                 <Chip
@@ -205,25 +260,18 @@ export default function ProductSearchPageView({
             </StatsBox>
 
             <FlexBox gap={1} flexWrap="wrap">
-              <FilterChip
-                label="On Sale"
-                clickable
-                onClick={() =>
-                  handleChangeSearchParams("sale", sale ? "" : "true")
-                }
-                color={sale ? "primary" : "default"}
-                variant={sale ? "filled" : "outlined"}
-              />
-              <FilterChip
-                label="Featured"
-                clickable
-                variant="outlined"
-              />
-              <FilterChip
-                label="New Arrivals"
-                clickable
-                variant="outlined"
-              />
+              {categories?.map((cat) => (
+                <FilterChip
+                  key={cat}
+                  label={cat}
+                  clickable
+                  onClick={() =>
+                    handleChangeSearchParams("category", category === cat ? "" : cat)
+                  }
+                  color={category === cat ? "primary" : "default"}
+                  variant={category === cat ? "filled" : "outlined"}
+                />
+              ))}
             </FlexBox>
           </FlexBetween>
         </Container>
@@ -303,138 +351,78 @@ export default function ProductSearchPageView({
               >
                 <ViewList fontSize="small" />
               </IconButton>
-
-              {/* MOBILE FILTER BUTTON */}
-              <Box display={{ md: "none", xs: "block" }} ml={1}>
-                <Sidenav
-                  handler={(close) => (
-                    <IconButton
-                      onClick={close}
-                      size="small"
-                      sx={{
-                        backgroundColor: "primary.main",
-                        color: "white",
-                        "&:hover": { backgroundColor: "primary.dark" },
-                      }}
-                    >
-                      <FilterList fontSize="small" />
-                    </IconButton>
-                  )}
-                >
-                  <Box px={3} py={2}>
-                    <Typography variant="h6" mb={2}>
-                      Filters
-                    </Typography>
-                    <ProductFilters filters={filters} />
-                  </Box>
-                </Sidenav>
-              </Box>
             </FlexBox>
           </FlexBetween>
 
-          <Grid container spacing={3}>
-            {/* SIDEBAR FILTERS */}
-            <Grid
-              size={{ xl: 2.5, md: 3 }}
-              sx={{ display: { md: "block", xs: "none" } }}
-            >
-              <Box
-                sx={{
-                  backgroundColor: "white",
-                  borderRadius: 2,
-                  p: 3,
-                  position: "sticky",
-                  top: 100,
-                }}
-              >
-                <Typography variant="h6" mb={2} fontWeight={600}>
-                  Filters
-                </Typography>
-                <ProductFilters filters={filters} />
-              </Box>
-            </Grid>
+          {/* PRODUCTS GRID */}
+          {paginatedProducts.length > 0 ? (
+            <>
+              <Grid container spacing={3}>
+                {paginatedProducts.map((product) => (
+                  <Grid
+                    size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+                    key={product._id}
+                  >
+                    <ProductCard17 product={product} />
+                  </Grid>
+                ))}
+              </Grid>
 
-            {/* PRODUCTS GRID/LIST */}
-            <Grid size={{ xl: 9.5, md: 9, xs: 12 }}>
-              {products.length > 0 ? (
-                <>
-                  {view === "grid" ? (
-                    <ProductsGridView products={products} />
-                  ) : (
-                    <ProductsListView products={products} />
-                  )}
-
-                  {/* PAGINATION */}
-                  <FlexBetween
-                    sx={{
-                      mt: 6,
-                      p: 3,
-                      backgroundColor: "white",
-                      borderRadius: 2,
-                      flexWrap: "wrap",
-                      gap: 2,
-                    }}
-                  >
-                    <Typography variant="body2" sx={{ color: "grey.600" }}>
-                      Showing {firstIndex + 1}-{lastIndex} of {totalProducts}{" "}
-                      products
-                    </Typography>
-                    <Pagination
-                      color="primary"
-                      variant="outlined"
-                      page={+page}
-                      count={pageCount}
-                      onChange={(_, page) =>
-                        handleChangeSearchParams("page", page.toString())
-                      }
-                      sx={{
-                        "& .MuiPaginationItem-root": {
-                          fontWeight: 500,
-                        },
-                      }}
-                    />
-                  </FlexBetween>
-                </>
-              ) : (
-                <EmptyState>
-                  <SearchIcon sx={{ fontSize: 80, color: "grey.400", mb: 2 }} />
-                  <Typography
-                    variant="h5"
-                    sx={{ fontWeight: 600, mb: 1, color: "grey.700" }}
-                  >
-                    No products found
+              {/* PAGINATION */}
+              {totalPages > 1 && (
+                <FlexBetween
+                  sx={{
+                    mt: 6,
+                    p: 3,
+                    backgroundColor: "white",
+                    borderRadius: 2,
+                    flexWrap: "wrap",
+                    gap: 2,
+                  }}
+                >
+                  <Typography variant="body2" sx={{ color: "grey.600" }}>
+                    Showing {((page - 1) * ITEMS_PER_PAGE) + 1}-{Math.min(page * ITEMS_PER_PAGE, filteredProducts.length)} of {filteredProducts.length} products
                   </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{ color: "grey.600", mb: 3, maxWidth: 400 }}
-                  >
-                    Try adjusting your search or filters to find what you're
-                    looking for
-                  </Typography>
-                  <Box
-                    component="button"
-                    onClick={() => router.push("/products/search")}
+                  <Pagination
+                    color="primary"
+                    variant="outlined"
+                    page={page}
+                    count={totalPages}
+                    onChange={handlePageChange}
+                    showFirstButton
+                    showLastButton
                     sx={{
-                      px: 3,
-                      py: 1.5,
-                      backgroundColor: "primary.main",
-                      color: "white",
-                      border: "none",
-                      borderRadius: 2,
-                      fontSize: 16,
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      "&:hover": {
-                        backgroundColor: "primary.dark",
+                      "& .MuiPaginationItem-root": {
+                        fontWeight: 600,
                       },
                     }}
-                  >
-                    Clear All Filters
-                  </Box>
-                </EmptyState>
+                  />
+                </FlexBetween>
               )}
-            </Grid>
-          </Grid>
+            </>
+          ) : (
+            <EmptyState>
+              <SearchIcon sx={{ fontSize: 80, color: "grey.300", mb: 2 }} />
+              <Typography variant="h5" gutterBottom fontWeight={600}>
+                No products found
+              </Typography>
+              <Typography variant="body1" color="text.secondary" mb={3}>
+                {query
+                  ? `No results for "${query}". Try adjusting your search or filters.`
+                  : "Start searching to find products"}
+              </Typography>
+              {(category || minPrice || maxPrice) && (
+                <Chip
+                  label="Clear all filters"
+                  clickable
+                  color="primary"
+                  onClick={() => {
+                    router.push(`${pathname}?q=${query || ""}`);
+                  }}
+                />
+              )}
+            </EmptyState>
+          )}
         </Container>
       </Box>
     </Box>

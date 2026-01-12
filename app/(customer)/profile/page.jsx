@@ -11,7 +11,9 @@ export default function Profile() {
   const router = useRouter();
   const { user, loading, isAuthenticated } = useAuth();
 
+
   useEffect(() => {
+
     if (!loading && !isAuthenticated) {
       router.push("/login");
     }

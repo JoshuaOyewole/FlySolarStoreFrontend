@@ -18,6 +18,7 @@ export default function CarouselCard1({
   title,
   imgUrl,
   buttonText,
+  buttonLink,
   description,
   buttonColor ="#CC5500",
   //buttonColor = "primary",
@@ -42,7 +43,7 @@ export default function CarouselCard1({
             //color={buttonColor}
             style={{backgroundColor:buttonColor, color:"#fff"}}
             LinkComponent={Link}
-            href="/products/search"
+            href={buttonLink || "#"}
             className="button-link"
           >
             {buttonText}

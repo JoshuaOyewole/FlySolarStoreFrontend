@@ -7,7 +7,7 @@ export async function generateMetadata({ params }) {
     const { id } = await params;
    // console.log("generateMetadata - Order ID:", id);
     const response = await ordersAPI.getById(id);
-    console.log("generateMetadata - Order response:", response);
+
     if (!response || !response.data) {
       return {
         title: "Order Not Found - FlySolarStore E-Commerce shop",

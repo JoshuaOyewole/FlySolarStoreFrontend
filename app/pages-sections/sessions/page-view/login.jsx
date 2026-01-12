@@ -58,7 +58,7 @@ export default function LoginPageView() {
         router.push("/admin/dashboard");
         return;
       }
-      console.log("Login response:", res);
+     // console.log("Login response:", res);
       // Redirect to home page or dashboard after successful login
       router.push("/");
     } catch (err) {

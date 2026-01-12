@@ -15,6 +15,7 @@ import { ListLabel } from "./styles";
 import { SidebarWrapper } from "./styles";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { useState } from "react";
+
 export default function DashboardSidebar() {
   const { logout } = useAuth();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -28,7 +29,9 @@ export default function DashboardSidebar() {
     handleSidebarHover,
     handleCloseMobileSidebar,
   } = useLayout();
+
   const downLg = useMediaQuery((theme) => theme.breakpoints.down("lg"));
+
   if (downLg) {
     return (
       <LayoutDrawer
@@ -39,6 +42,7 @@ export default function DashboardSidebar() {
           <Image
             alt="Logo"
             width={105}
+            priority={"eager"}
             height={50}
             src="/assets/images/logo_new.png"
             style={{
@@ -56,6 +60,7 @@ export default function DashboardSidebar() {
     setAnchorEl(null);
     router.push("/");
   };
+
   return (
     <SidebarWrapper
       compact={sidebarCompact ? 1 : 0}

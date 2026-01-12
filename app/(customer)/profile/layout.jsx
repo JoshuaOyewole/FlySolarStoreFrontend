@@ -2,5 +2,7 @@ import { CustomerDashboardLayout } from "../../components/layouts/customer-dashb
 export default function Layout({
   children
 }) {
+
+  console.log
   return <CustomerDashboardLayout>{children}</CustomerDashboardLayout>;
 }

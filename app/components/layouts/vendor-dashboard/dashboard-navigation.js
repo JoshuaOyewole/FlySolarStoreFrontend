@@ -50,9 +50,39 @@ export const navigation = [
         path: "/admin/orders",
       },
     ],
-  } /* {
+  },
+  {
+    name: "Blog",
+    icon: duotone.Blog,
+    children: [
+      {
+        name: "Blog List",
+        path: "/admin/blogs",
+      },
+      {
+        name: "Create Blog",
+        path: "/admin/blogs/create",
+      },
+    ],
+  },
+  {
+    name: "Carousels",
+    icon: duotone.Products,
+    children: [
+      {
+        name: "Carousel List",
+        path: "/admin/carousel",
+      },
+      {
+        name: "Create Carousel",
+        path: "/admin/carousel/create",
+      },
+    ],
+  },
+  /* {
   name: "Customers",
   icon: duotone.Customers,
   path: "/admin/customers"
-} */,
+} */
+  ,
 ];

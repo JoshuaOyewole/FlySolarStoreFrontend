@@ -24,23 +24,18 @@ async function apiRequest(endpoint, options = {}) {
     ...options.headers,
   };
 
-  // ✅ If running on the server, forward cookies manually
-  if (typeof window === "undefined") {
-    const cookieStore = cookies();
-    const cookieHeader = cookieStore
-      .getAll()
-      .map((c) => `${c.name}=${c.value}`)
-      .join("; ");
-
-    if (cookieHeader) {
-      headers.Cookie = cookieHeader;
-    }
-  }
+  // Note: Cookie forwarding for server-side requests should be handled at the page/component level
+  // Client-side requests will automatically include cookies via fetch credentials 
 
   const config = {
     ...options,
     headers,
+    credentials: "include", // Automatically include cookies in requests
     cache: options.cache ?? "no-store",
+    // Stringify body if it's not FormData
+    body: options.body 
+      ? (isFormData ? options.body : JSON.stringify(options.body))
+      : undefined,
   };
 
   try {
@@ -247,6 +242,7 @@ export const ordersAPI = {
    * Get order by ID or order number
    */
   getById: async (id) => {
+    console.log("ordersAPI.getById - Fetching order with ID:", id);
     return apiRequest(`/orders/${id}`, {
       method: "GET",
       credentials: "include",
@@ -308,17 +304,113 @@ export const blogAPI = {
    */
   getAll: async (params = {}) => {
     const queryString = new URLSearchParams(params).toString();
-    return apiRequest(`/blogs${queryString ? `?${queryString}` : ""}`, {
+    return apiRequest(`/blogs/users${queryString ? `?${queryString}` : ""}`, {
+      method: "GET",
+    });
+  },
+
+  getAllBlogs: async (params = {}) => {
+    const queryString = new URLSearchParams(params).toString();
+    return apiRequest(`/blogs/admin${queryString ? `?${queryString}` : ""}`, {
+      method: "GET",
+      credentials: "include",
+    });
+  },
+
+  /**
+   * Get latest blogs
+   */
+  getLatest: async (limit = 6) => {
+    return apiRequest(`/blogs/latest?limit=${limit}`, {
       method: "GET",
     });
   },
 
   /**
-   * Get single blog
+   * Get single blog by slug
    */
-  getById: async (id) => {
-    return apiRequest(`/blogs/${id}`, {
+  getBySlug: async (slug) => {
+    return apiRequest(`/blogs/${slug}`, {
       method: "GET",
+    });
+  },
+
+  /**
+   * Create new blog
+   */
+  create: async (blogData) => {
+    return apiRequest("/blogs", {
+      method: "POST",
+      body: blogData,
+      credentials: "include",
+    });
+  },
+
+  /**
+   * Update blog
+   */
+  edit: async (id, blogData) => {
+    return apiRequest(`/blogs/${id}`, {
+      method: "PUT",
+      body: blogData,
+      credentials: "include",
+    });
+  },
+
+  /**
+   * Delete blog
+   */
+  delete: async (id) => {
+    return apiRequest(`/blogs/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+  },
+};
+
+/**
+ * Carousel/Banner API
+ */
+export const carouselAPI = {
+  /**
+   * Get all banners (admin)
+   */
+  getAll: async () => {
+    return apiRequest("/homepage/all-banners", {
+      method: "GET",
+      credentials: "include",
+    });
+  },
+
+  /**
+   * Create new banner
+   */
+  create: async (bannerData) => {
+    return apiRequest("/homepage/hero-banners", {
+      method: "POST",
+      body: bannerData,
+      credentials: "include",
+    });
+  },
+
+  /**
+   * Update banner
+   */
+  edit: async (id, bannerData) => {
+    return apiRequest(`/homepage/hero-banners/${id}`, {
+      method: "PUT",
+      body: bannerData,
+      credentials: "include",
+    });
+  },
+
+  /**
+   * Delete banner
+   */
+  delete: async (id) => {
+    return apiRequest(`/homepage/hero-banners/${id}`, {
+      method: "DELETE",
+      credentials: "include",
     });
   },
 };
@@ -328,4 +420,5 @@ export default {
   productsAPI,
   ordersAPI,
   blogAPI,
+  carouselAPI,
 };

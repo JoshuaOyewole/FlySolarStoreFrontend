@@ -3,7 +3,11 @@ import Typography from "@mui/material/Typography";
 
 export default function ProductDescription({ productDescription }) {
   return (
-    <Box>
+    <Box
+      sx={{
+        width: { xs: "100%", md: "80%",lg:"70%" },
+      }}
+    >
       <Typography
         variant="h3"
         sx={{
@@ -11,7 +15,7 @@ export default function ProductDescription({ productDescription }) {
           mt: 7,
         }}
       >
-        Product Description:
+        Product Details
       </Typography>
 
       {productDescription ? (

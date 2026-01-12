@@ -5,104 +5,72 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import Chip from "@mui/material/Chip";
+//import Chip from "@mui/material/Chip";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 
 // CUSTOM COMPONENTS
 import BlogCard1 from "../components/blog-cards/blog-card-1";
-import Search  from "../components/icons/Search";
+import Search from "../components/icons/Search";
 
 // STYLED COMPONENTS
 import {
-  HeroSection,
+  // HeroSection,
   CategoryChip,
   SearchSection,
   BlogGrid,
-  FeaturedBlogCard,
+  //FeaturedBlogCard,
 } from "./styles";
+import { blogCategories } from "../pages-sections/vendor-dashboard/blog/blog-form";
+import { blogAPI } from "../lib/api";
+import { useQuery } from "@tanstack/react-query";
+import { Stack } from "@mui/material";
+import { TablePagination } from "../components/data-table";
 
 export default function BlogPageView() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const categories = [
-    "All",
-    "Solar Tips",
-    "Product Reviews",
-    "Installation Guides",
-    "Sustainability",
-    "Energy Savings",
-    "News & Updates",
-  ];
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 15;
 
-  const featuredBlog = {
-    id: "featured-1",
-    title: "Complete Guide to Solar Panel Installation in Nigeria",
-    description:
-      "Everything you need to know about installing solar panels in your home or business. From choosing the right equipment to understanding installation costs and government incentives.",
-    image: "/assets/images/blogs/blog-1.jpg",
-    date: "15 NOV 2025",
-    category: "Installation Guides",
-    readTime: "8 min read",
-  };
+  const query = useQuery({
+    queryKey: ["blogs", currentPage],
+    queryFn: () => blogAPI.getAll({ limit, page: currentPage }), // Fetch all blogs for now
+  });
 
-  const blogs = [
-    {
-      id: "1",
-      title: "Top 10 Solar Products for Nigerian Homes in 2025",
-      description:
-        "Discover the most efficient and affordable solar products perfect for Nigerian households. From panels to inverters, we've got you covered.",
-      image: "/assets/images/blogs/blog-2.jpg",
-      date: "12 NOV 2025",
-      category: "Product Reviews",
-    },
-    {
-      id: "2",
-      title: "How to Calculate Your Solar Energy Needs",
-      description:
-        "Learn how to accurately determine your energy requirements and choose the right solar system size for your home or business.",
-      image: "/assets/images/blogs/blog-3.jpg",
-      date: "10 NOV 2025",
-      category: "Solar Tips",
-    },
-    {
-      id: "3",
-      title: "Solar Panel Maintenance: Best Practices",
-      description:
-        "Keep your solar panels performing at peak efficiency with these essential maintenance tips and cleaning techniques.",
-      image: "/assets/images/blogs/blog-1.jpg",
-      date: "08 NOV 2025",
-      category: "Solar Tips",
-    },
-    {
-      id: "4",
-      title: "Understanding Solar Battery Storage Systems",
-      description:
-        "A comprehensive guide to solar battery storage, helping you choose the best battery solution for your energy storage needs.",
-      image: "/assets/images/blogs/blog-2.jpg",
-      date: "05 NOV 2025",
-      category: "Product Reviews",
-    },
-    {
-      id: "5",
-      title: "Government Incentives for Solar Energy in Nigeria",
-      description:
-        "Explore available government programs, tax benefits, and incentives for adopting solar energy in Nigeria.",
-      image: "/assets/images/blogs/blog-3.jpg",
-      date: "03 NOV 2025",
-      category: "News & Updates",
-    },
-    {
-      id: "6",
-      title: "Solar vs Generator: Cost Comparison 2025",
-      description:
-        "Detailed cost analysis comparing solar power systems with traditional generators. Find out which option saves you more money long-term.",
-      image: "/assets/images/blogs/blog-1.jpg",
-      date: "01 NOV 2025",
-      category: "Energy Savings",
-    },
-  ];
+  if (query.isLoading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Typography variant="h6">Loading articles...</Typography>
+      </Box>
+    );
+  }
+  if (query.isError) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Typography variant="h6">
+          Error loading articles. Please try again later.
+        </Typography>
+      </Box>
+    );
+  }
+
+  const blogs = query?.data?.data || [];
 
   // Filter blogs based on search query and selected category
   const filteredBlogs = blogs.filter((blog) => {
@@ -117,7 +85,7 @@ export default function BlogPageView() {
   return (
     <Box>
       {/* HERO SECTION */}
-   {/*    <HeroSection>
+      {/*    <HeroSection>
         <Container maxWidth="lg">
           <Typography
             variant="h1"
@@ -180,7 +148,7 @@ export default function BlogPageView() {
               justifyContent: "center",
             }}
           >
-            {categories.map((category) => (
+            {blogCategories.map((category) => (
               <CategoryChip
                 key={category}
                 label={category}
@@ -195,7 +163,7 @@ export default function BlogPageView() {
       </SearchSection>
 
       {/* FEATURED BLOG */}
-   {/*    <Box sx={{ py: { xs: 4, md: 6 } }}>
+      {/*    <Box sx={{ py: { xs: 4, md: 6 } }}>
         <Container maxWidth="lg">
           <Typography
             variant="h3"
@@ -292,17 +260,31 @@ export default function BlogPageView() {
 
           <BlogGrid container spacing={3}>
             {filteredBlogs.length > 0 ? (
-              filteredBlogs.map((blog) => (
-                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={blog.id}>
-                  <BlogCard1
-                    image={blog.image}
-                    title={blog.title}
-                    date={blog.date}
-                    href={blog.id}
-                    description={blog.description}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                {filteredBlogs.map((blog) => (
+                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={blog._id}>
+                    <BlogCard1
+                      image={blog.coverImgUrl}
+                      title={blog.title}
+                      date={blog.createdAt}
+                      slug={blog.slug}
+                      description={blog.description}
+                    />
+                  </Grid>
+                ))}
+                <Stack alignItems="center" my={4}>
+                  <TablePagination
+                    page={currentPage}
+                    onChange={(_, newPage) => setCurrentPage(newPage)}
+                    count={Math.ceil(filteredBlogs.length / limit)}
                   />
-                </Grid>
-              ))
+                </Stack>
+              </Box>
             ) : (
               <Grid size={{ xs: 12 }}>
                 <Box
@@ -330,7 +312,7 @@ export default function BlogPageView() {
           </BlogGrid>
 
           {/* LOAD MORE */}
-        {/*   <Box sx={{ textAlign: "center", mt: 6 }}>
+          {/*   <Box sx={{ textAlign: "center", mt: 6 }}>
             <Typography
               variant="body1"
               sx={{
@@ -349,7 +331,7 @@ export default function BlogPageView() {
       </Box>
 
       {/* NEWSLETTER SECTION */}
-    {/*   <Box
+      {/*   <Box
         sx={{
           py: { xs: 6, md: 8 },
           background: (theme) =>

@@ -8,6 +8,7 @@ import ProductIntro from "../product-intro";
 import RelatedProducts from "../related-products";
 //import FrequentlyBought from "../frequently-bought";
 import ProductDescription from "../product-description";
+import Box from "@mui/material/Box";
 
 // CUSTOM DATA MODEL
 
@@ -32,9 +33,14 @@ export default function ProductDetailsPageView(props) {
 
       {/* AVAILABLE SHOPS AREA */}
       {/*  <AvailableShops /> */}
-      <ProductDescription
-        productDescription={props.product.description}
-      />
+      <Box
+        sx={{
+          display: "flex",
+        }}
+      >
+        <ProductDescription productDescription={props.product.description} />
+      </Box>
+
       {/* RELATED PRODUCTS AREA */}
       <RelatedProducts products={props.relatedProducts} />
     </Container>

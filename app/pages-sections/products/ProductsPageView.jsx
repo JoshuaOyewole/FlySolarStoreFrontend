@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
@@ -22,6 +22,7 @@ import {
   CategoryChip,
   StatsBox,
 } from "../../products/styles";
+import { useQuery } from "@tanstack/react-query";
 
 export default function ProductsPageView({ products: initialProducts }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -30,6 +31,28 @@ export default function ProductsPageView({ products: initialProducts }) {
   const [page, setPage] = useState(1);
   const itemsPerPage = 12;
 
+  const query = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/admin/categories?limit=100`
+      );
+      const res = await response.json();
+      return res.data || [];
+    },
+    staleTime: 1000 * 60 * 60, // Consider data fresh for 1 hour
+    gcTime: 1000 * 60 * 60 * 24, // Keep in cache for 24 hours
+    refetchOnWindowFocus: false, // Don't refetch when window regains focus
+    refetchOnMount: false, // Don't refetch on component mount if data exists
+  });
+
+  const categories = useMemo(() => {
+    if (query.isSuccess && query.data?.length > 0) {
+      return query.data.map((cat) => cat.name);
+    }
+    return ["Solar Panels"]; // Default fallback
+  }, [query.isSuccess, query.data]);
+  /* 
   const categories = [
     "All Products",
     "Solar Panels",
@@ -37,7 +60,7 @@ export default function ProductsPageView({ products: initialProducts }) {
     "Batteries",
     "Accessories",
     "On Sale",
-  ];
+  ]; */
 
   const sortOptions = [
     { value: "newest", label: "Newest First" },
@@ -99,10 +122,28 @@ export default function ProductsPageView({ products: initialProducts }) {
     page * itemsPerPage
   );
 
-  const handlePageChange = (event, value) => {
+  const handlePageChange = useCallback((event, value) => {
     setPage(value);
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  }, []);
+
+  const handleSearchChange = useCallback((e) => {
+    setSearchQuery(e.target.value);
+    setPage(1);
+  }, []);
+
+  const handleSortChange = useCallback((e) => {
+    setSortBy(e.target.value);
+  }, []);
+
+  const handleCategoryClick = useCallback((category) => {
+    setSelectedCategory(category);
+    setPage(1);
+  }, []);
+
+  const handleCategoryReset = useCallback(() => {
+    setSelectedCategory("All Products");
+  }, []);
 
   return (
     <Box>
@@ -145,10 +186,7 @@ export default function ProductsPageView({ products: initialProducts }) {
               placeholder="Search products..."
               variant="outlined"
               value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setPage(1);
-              }}
+              onChange={handleSearchChange}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -180,13 +218,8 @@ export default function ProductsPageView({ products: initialProducts }) {
                 key={category}
                 label={category}
                 clickable
-                onClick={() => {
-                  setSelectedCategory(category);
-                  setPage(1);
-                }}
-                variant={
-                  category === selectedCategory ? "filled" : "outlined"
-                }
+                onClick={() => handleCategoryClick(category)}
+                variant={category === selectedCategory ? "filled" : "outlined"}
                 color={category === selectedCategory ? "primary" : "default"}
               />
             ))}
@@ -212,7 +245,7 @@ export default function ProductsPageView({ products: initialProducts }) {
                   label={selectedCategory}
                   size="small"
                   color="primary"
-                  onDelete={() => setSelectedCategory("All Products")}
+                  onDelete={handleCategoryReset}
                   sx={{ ml: 2 }}
                 />
               )}
@@ -222,7 +255,7 @@ export default function ProductsPageView({ products: initialProducts }) {
               select
               size="small"
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={handleSortChange}
               sx={{ minWidth: 200 }}
             >
               {sortOptions.map((option) => (
@@ -242,7 +275,10 @@ export default function ProductsPageView({ products: initialProducts }) {
             <>
               <Grid container spacing={3}>
                 {paginatedProducts.map((product) => (
-                  <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={product._id}>
+                  <Grid
+                    size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+                    key={product._id}
+                  >
                     <ProductCard17 product={product} />
                   </Grid>
                 ))}
@@ -284,9 +320,7 @@ export default function ProductsPageView({ products: initialProducts }) {
                 borderRadius: 2,
               }}
             >
-              <SearchIcon
-                sx={{ fontSize: 80, color: "grey.400", mb: 2 }}
-              />
+              <SearchIcon sx={{ fontSize: 80, color: "grey.400", mb: 2 }} />
               <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
                 No Products Found
               </Typography>

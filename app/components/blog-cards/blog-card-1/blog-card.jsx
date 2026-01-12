@@ -7,12 +7,18 @@ import { NavLink3 } from "../../nav-link";
 
 // STYLED COMPONENTS
 import { RootStyle, ImageBox, DateBox } from "./styles";
-
+import { format, isValid } from "date-fns";
 // =====================================================
 
 // =====================================================
 
-export default function BlogCard1({ image, title, href, date, description }) {
+export default function BlogCard1({
+  image,
+  title,
+  slug,
+  date,
+  description,
+}) {
   return (
     <RootStyle>
       <ImageBox>
@@ -25,19 +31,23 @@ export default function BlogCard1({ image, title, href, date, description }) {
         />
 
         <DateBox>
-          <p>{date}</p>
+          <p>
+            {isValid(new Date(date))
+              ? format(new Date(date), " dd MMM yyyy")
+              : "Invalid date"}
+          </p>
         </DateBox>
       </ImageBox>
 
       <div className="content">
-        <Link href={`/blog/${href}`} className="title-link">
-          <Typography noWrap variant="body1" fontWeight={600} fontSize={18}>
+        <Link href={`/blog/${slug}`} className="title-link">
+          <Typography variant="body1" fontWeight={600} fontSize={18}>
             {title}
           </Typography>
         </Link>
 
         <p className="description">{description}</p>
-        <NavLink3 text="Read More" href={`/blog/${href}`} />
+        <NavLink3 text="Read More" href={`/blog/${slug}`} />
       </div>
     </RootStyle>
   );
