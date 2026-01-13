@@ -263,7 +263,19 @@ export default function BlogPageView() {
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: "column",
+                  rowGap: 4,
+                  flexWrap: "wrap",
+                  flexDirection:{
+                    xs:"column",
+                    sm:"row",
+                    md:"row",
+                  },
+                 columnGap: {
+                  xs:2,
+                  sm:2,
+                  md:2,
+                  lg:3,
+                 },
                 }}
               >
                 {filteredBlogs.map((blog) => (
@@ -272,18 +284,11 @@ export default function BlogPageView() {
                       image={blog.coverImgUrl}
                       title={blog.title}
                       date={blog.createdAt}
-                      slug={blog.slug}
+                      href={blog.slug}
                       description={blog.description}
                     />
                   </Grid>
                 ))}
-                <Stack alignItems="center" my={4}>
-                  <TablePagination
-                    page={currentPage}
-                    onChange={(_, newPage) => setCurrentPage(newPage)}
-                    count={Math.ceil(filteredBlogs.length / limit)}
-                  />
-                </Stack>
               </Box>
             ) : (
               <Grid size={{ xs: 12 }}>
@@ -309,6 +314,13 @@ export default function BlogPageView() {
                 </Box>
               </Grid>
             )}
+            <Stack alignItems="center" my={4} width={"100%"}>
+              <TablePagination
+                page={currentPage}
+                onChange={(_, newPage) => setCurrentPage(newPage)}
+                count={Math.ceil(filteredBlogs.length / limit)}
+              />
+            </Stack>
           </BlogGrid>
 
           {/* LOAD MORE */}
