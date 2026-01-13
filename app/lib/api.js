@@ -330,6 +330,7 @@ export const blogAPI = {
     const queryString = new URLSearchParams(params).toString();
     return apiRequest(`/blogs/users${queryString ? `?${queryString}` : ""}`, {
       method: "GET",
+  
     });
   },
 

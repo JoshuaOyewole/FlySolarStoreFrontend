@@ -34,6 +34,7 @@ export default function CarouselForm() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [uploadedImage, setUploadedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
   // CREATE MUTATION
   const createMutation = useMutation({
@@ -69,6 +70,8 @@ export default function CarouselForm() {
     if (values.buttonLink) formData.append("buttonLink", values.buttonLink);
     formData.append("type", values.type);
     formData.append("image", uploadedImage);
+
+    // Log FormData contents for debugging
 
     createMutation.mutate(formData);
   };
@@ -178,11 +181,47 @@ export default function CarouselForm() {
                   <DropZone
                     onChange={(files) => {
                       if (files && files.length > 0) {
-                        setUploadedImage(files[0]);
+                        const file = files[0];
+                        setUploadedImage(file);
+                        
+                        // Create preview URL
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          setImagePreview(reader.result);
+                        };
+                        reader.readAsDataURL(file);
                       }
                     }}
                     title="Drop carousel image here"
                   />
+                  
+                  {/* Image Preview */}
+                  {imagePreview && (
+                    <Box mt={2} sx={{ position: 'relative', display: 'inline-block' }}>
+                      <img 
+                        src={imagePreview} 
+                        alt="Preview" 
+                        style={{ 
+                          maxWidth: '100%', 
+                          maxHeight: '300px',
+                          borderRadius: '8px',
+                          border: '1px solid #ddd'
+                        }} 
+                      />
+                      <Button
+                        variant="contained"
+                        color="error"
+                        size="small"
+                        onClick={() => {
+                          setUploadedImage(null);
+                          setImagePreview(null);
+                        }}
+                        sx={{ mt: 1 }}
+                      >
+                        Remove Image
+                      </Button>
+                    </Box>
+                  )}
                 </Grid>
 
                 <Grid size={{ xs: 12 }}>

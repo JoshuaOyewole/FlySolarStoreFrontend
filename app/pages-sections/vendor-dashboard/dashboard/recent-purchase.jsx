@@ -35,7 +35,7 @@ const tableHeading = [
     alignCenter: true,
   },
 ];
-export default async function RecentPurchase({ recentPurchases }) {
+export default function RecentPurchase({ recentPurchases }) {
 
   return (
     <Card>

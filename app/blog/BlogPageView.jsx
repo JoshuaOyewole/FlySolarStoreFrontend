@@ -37,6 +37,7 @@ export default function BlogPageView() {
   const query = useQuery({
     queryKey: ["blogs", currentPage],
     queryFn: () => blogAPI.getAll({ limit, page: currentPage }), // Fetch all blogs for now
+    staleTime: 60 * 60 * 1000, // 60 minutes
   });
 
   if (query.isLoading) {
@@ -265,17 +266,17 @@ export default function BlogPageView() {
                   display: "flex",
                   rowGap: 4,
                   flexWrap: "wrap",
-                  flexDirection:{
-                    xs:"column",
-                    sm:"row",
-                    md:"row",
+                  flexDirection: {
+                    xs: "column",
+                    sm: "row",
+                    md: "row",
                   },
-                 columnGap: {
-                  xs:2,
-                  sm:2,
-                  md:2,
-                  lg:3,
-                 },
+                  columnGap: {
+                    xs: 2,
+                    sm: 2,
+                    md: 2,
+                    lg: 3,
+                  },
                 }}
               >
                 {filteredBlogs.map((blog) => (

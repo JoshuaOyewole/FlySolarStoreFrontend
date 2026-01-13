@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 // CUSTOM UTILS LIBRARY FUNCTION
 import { currency } from "../../../lib";
 
-export default function WelcomeCard({ todayTotalSales }) {
+export default function WelcomeCard({ todayTotalSales, user }) {
   return (
     <Card
       sx={{
@@ -28,7 +28,7 @@ export default function WelcomeCard({ todayTotalSales }) {
           mb: 0.5,
         }}
       >
-        Good Morning, Orisfina Tech!
+        Good Morning, {`${user?.firstName} ${user?.lastName}!`}
       </Typography>
 
       <p>Here’s what happening with your store today!</p>

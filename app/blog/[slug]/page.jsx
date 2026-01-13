@@ -38,7 +38,7 @@ const fetchArticleBySlug = async (slug) => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/blogs/${slug}`,
       {
-        next: { revalidate: 300 },
+        next: { revalidate: 3600 },
       }
     );
     if (!response.ok) {

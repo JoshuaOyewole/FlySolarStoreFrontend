@@ -8,7 +8,7 @@ import CarouselBanner from "./carousel-banner";
 
 export default async function Section1() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/homepage/hero-banners`, {
-    next: { revalidate: 24000 } // Cache for 6 hours (21600 seconds)
+    next: { revalidate: 0 } // Cache for 6 hours (21600 seconds)
   });
   const res = await response.json();
 

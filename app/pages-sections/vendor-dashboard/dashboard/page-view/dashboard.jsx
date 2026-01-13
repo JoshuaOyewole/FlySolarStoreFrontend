@@ -1,5 +1,6 @@
+"use client";
 import Grid from "@mui/material/Grid";
-import { cookies } from "next/headers";
+//import { cookies } from "next/headers";
 /* import { Box, Paper, Alert, AlertTitle, Button } from "@mui/material";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import RefreshIcon from "@mui/icons-material/Refresh"; */
@@ -10,36 +11,41 @@ import Card1 from "../card-1";
 import Analytics from "../analytics";
 import WelcomeCard from "../welcome-card";
 import RecentPurchase from "../recent-purchase";
+import { useAuth } from "../../../../contexts/AuthContext";
+import { useQuery } from "@tanstack/react-query";
 //import Typography from "@mui/material/Typography";
 
-const fetchData = async () => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token");
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/admin/get-dashboard-analytics`,
-    {
-      headers: {
-        Authorization: `Bearer ${token?.value || ""}`,
-      },
-      next: { revalidate: 30 }, // or use next: { revalidate: 300 } for caching
-    }
-  );
+export default function DashboardPageView() {
+  const { user } = useAuth();
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["vendor-dashboard-data"],
+    queryFn: () =>
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/admin/get-dashboard-analytics`,
+        {
+          credentials: "include",
+          next: { revalidate: 120 }, // caching for 2mins
+        }
+      ).then((res) => res.json()),
+  });
 
-  const res = await response.json();
-
-  const analytics = await res;
-  return analytics;
-};
-
-export default async function DashboardPageView() {
-  const cardList = await fetchData();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
+  const cardList = data?.data || {};
+  const totalYearlySales = data?.data?.totalYearlySales || [];
+  const analytics = data?.data?.analytics || [];
+  const todaysTotalSales = data?.data?.todaysTotalSales || 0;
+  const totalSoldItems = data?.data?.totalSoldItems || 0;
 
   let salesPerMonth = Array(12).fill(0);
   let ordersPerMonth = Array(12).fill(0);
 
-
-  cardList?.data?.totalYearlySales.forEach((item) => {
+  totalYearlySales.forEach((item) => {
     const index = item.month - 1; // months are 1–12, array is 0–11
     salesPerMonth[index] += item.totalSales;
     ordersPerMonth[index] += item.totalOrders;
@@ -55,7 +61,10 @@ export default async function DashboardPageView() {
             xs: 12,
           }}
         >
-          <WelcomeCard todayTotalSales={cardList?.data?.todaysTotalSales} />
+          <WelcomeCard
+            todayTotalSales={todaysTotalSales}
+            user={user}
+          />
         </Grid>
 
         {/* ALL TRACKING CARDS */}
@@ -67,7 +76,7 @@ export default async function DashboardPageView() {
             xs: 12,
           }}
         >
-          {cardList?.data?.analytics.map((item, index) => {
+          {analytics.map((item, index) => {
             return (
               <Grid
                 size={{
@@ -96,7 +105,7 @@ export default async function DashboardPageView() {
             <Card1
               title={"Total Items Sold"}
               color={"error.main"}
-              amount1={cardList?.data?.totalSoldItems}
+              amount1={totalSoldItems}
               //amount2={1350}
               // percentage={"2.65%"}
               //status={"down" === "down" ? "down" : "up"}
@@ -111,7 +120,7 @@ export default async function DashboardPageView() {
             <Card1
               title={"Total Products"}
               color={"error.main"}
-              amount1={cardList?.data?.totalProducts}
+              amount1={cardList?.totalProducts}
               //amount2={1350}
               // percentage={"2.65%"}
               //status={"down" === "down" ? "down" : "up"}
@@ -129,7 +138,7 @@ export default async function DashboardPageView() {
 
         {/* RECENT PURCHASE AREA */}
         <Grid size={12}>
-          <RecentPurchase recentPurchases={cardList?.data?.recentPurchases} />
+          <RecentPurchase recentPurchases={cardList?.recentPurchases} />
         </Grid>
 
         {/* STOCK OUT PRODUCTS */}
