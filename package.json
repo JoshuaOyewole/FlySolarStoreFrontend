@@ -37,6 +37,7 @@
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "formik": "^2.4.9",
+    "google-auth-library": "^10.5.0",
     "i18next": "^25.6.2",
     "lodash": "^4.17.21",
     "next": "16.0.7",

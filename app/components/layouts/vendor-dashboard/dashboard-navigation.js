@@ -21,10 +21,10 @@ export const navigation = [
         name: "Create Product",
         path: "/admin/products/create",
       },
-      {
+     /*  {
         name: "Product Reviews",
         path: "/admin/products/reviews",
-      },
+      }, */
     ],
   },
   {

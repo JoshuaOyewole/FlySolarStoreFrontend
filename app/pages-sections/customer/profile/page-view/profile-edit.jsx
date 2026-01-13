@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import Card from "@mui/material/Card";
 
 // LOCAL CUSTOM COMPONENT
@@ -17,6 +17,12 @@ import DashboardHeader from "../../dashboard-header";
 export function ProfileEditPageView({
   user
 }) {
+  const [avatarFile, setAvatarFile] = useState(null);
+
+  const handleImageChange = (file) => {
+    setAvatarFile(file);
+  };
+
   return <Fragment>
       <DashboardHeader href="/profile" title="Edit Profile" />
 
@@ -26,8 +32,8 @@ export function ProfileEditPageView({
         sm: 4
       }
     }}>
-        <ProfilePicUpload image={user.avatar} />
-        {user && <ProfileEditForm user={user} />}
+        <ProfilePicUpload image={user.avatar} onImageChange={handleImageChange} />
+        {user && <ProfileEditForm user={user} avatarFile={avatarFile} />}
       </Card>
     </Fragment>;
 }

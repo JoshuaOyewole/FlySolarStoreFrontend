@@ -78,73 +78,87 @@ export default function RegisterPageView() {
     try {
       setError("");
       const { firstName, lastName, email, password } = values;
-      await register({ firstName, lastName, email, password });
+      await register({ firstName, lastName, email, password, channel: "normal" });
       // Redirect to home page or dashboard after successful registration
       router.push("/");
     } catch (err) {
       setError(err.message || "Registration failed. Please try again.");
     }
   });
+
+  const handleGoogleSignup = async () => {
+    try {
+      setError("");
+      // Redirect to backend Google OAuth endpoint
+      window.location.href = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"}/auth/google`;
+    } catch (err) {
+      setError(err.message || "Google sign-up failed. Please try again.");
+    }
+  };
   
-  return <FormProvider methods={methods} onSubmit={handleSubmitForm}>
-      {error && (
-        <div style={{ 
-          padding: "12px", 
-          marginBottom: "16px", 
-          backgroundColor: "#ffebee", 
-          color: "#c62828",
-          borderRadius: "4px",
-          fontSize: "14px"
-        }}>
-          {error}
+  return (
+    <>
+      <FormProvider methods={methods} onSubmit={handleSubmitForm}>
+        {error && (
+          <div style={{ 
+            padding: "12px", 
+            marginBottom: "16px", 
+            backgroundColor: "#ffebee", 
+            color: "#c62828",
+            borderRadius: "4px",
+            fontSize: "14px"
+          }}>
+            {error}
+          </div>
+        )}
+        
+        <div className="mb-1">
+          <Label>First Name</Label>
+          <TextField fullWidth name="firstName" size="medium" placeholder="John" />
         </div>
-      )}
-      
-      <div className="mb-1">
-        <Label>First Name</Label>
-        <TextField fullWidth name="firstName" size="medium" placeholder="John" />
-      </div>
 
-      <div className="mb-1">
-        <Label>Last Name</Label>
-        <TextField fullWidth name="lastName" size="medium" placeholder="Doe" />
-      </div>
+        <div className="mb-1">
+          <Label>Last Name</Label>
+          <TextField fullWidth name="lastName" size="medium" placeholder="Doe" />
+        </div>
 
-      <div className="mb-1">
-        <Label>Email</Label>
-        <TextField fullWidth name="email" size="medium" type="email" placeholder="example@mail.com" />
-      </div>
+        <div className="mb-1">
+          <Label>Email</Label>
+          <TextField fullWidth name="email" size="medium" type="email" placeholder="example@mail.com" />
+        </div>
 
-      <div className="mb-1">
-        <Label>Password</Label>
-        <TextField fullWidth size="medium" name="password" placeholder="*********" type={visiblePassword ? "text" : "password"} slotProps={{
-        input: inputProps
-      }} />
-      </div>
+        <div className="mb-1">
+          <Label>Password</Label>
+          <TextField fullWidth size="medium" name="password" placeholder="*********" type={visiblePassword ? "text" : "password"} slotProps={{
+          input: inputProps
+        }} />
+        </div>
 
-      <div className="mb-1">
-        <Label>Retype Password</Label>
-        <TextField fullWidth size="medium" name="re_password" placeholder="*********" type={visiblePassword ? "text" : "password"} slotProps={{
-        input: inputProps
-      }} />
-      </div>
+        <div className="mb-1">
+          <Label>Retype Password</Label>
+          <TextField fullWidth size="medium" name="re_password" placeholder="*********" type={visiblePassword ? "text" : "password"} slotProps={{
+          input: inputProps
+        }} />
+        </div>
 
-      <div className="agreement">
-        <Checkbox name="agreement" size="small" color="secondary" label={<FlexBox flexWrap="wrap" alignItems="center" justifyContent="flex-start" gap={1}>
-              <Box display={{
-          sm: "inline-block",
-          xs: "none"
-        }}>By signing up, you agree to</Box>
-              <Box display={{
-          sm: "none",
-          xs: "inline-block"
-        }}>Accept Our</Box>
-              <BoxLink title="Terms & Condition" href="/terms-and-conditions" />
-            </FlexBox>} />
-      </div>
+        <div className="agreement">
+          <Checkbox name="agreement" size="small" color="secondary" label={<FlexBox flexWrap="wrap" alignItems="center" justifyContent="flex-start" gap={1}>
+                <Box display={{
+            sm: "inline-block",
+            xs: "none"
+          }}>By signing up, you agree to</Box>
+                <Box display={{
+            sm: "none",
+            xs: "inline-block"
+          }}>Accept Our</Box>
+                <BoxLink title="Terms & Condition" href="/terms-and-conditions" />
+              </FlexBox>} />
+        </div>
 
-      <Button fullWidth size="large" type="submit" style={{backgroundColor:"#CC5500"}} color="primary" variant="contained" loading={isSubmitting} disabled={isSubmitting}>
-        {isSubmitting ? "Creating Account..." : "Create an Account"}
-      </Button>
-    </FormProvider>;
+        <Button fullWidth size="large" type="submit" style={{backgroundColor:"#CC5500"}} color="primary" variant="contained" loading={isSubmitting} disabled={isSubmitting}>
+          {isSubmitting ? "Creating Account..." : "Create an Account"}
+        </Button>
+      </FormProvider>
+    </>
+  );
 }

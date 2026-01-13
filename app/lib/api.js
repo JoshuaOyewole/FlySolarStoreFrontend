@@ -25,7 +25,7 @@ async function apiRequest(endpoint, options = {}) {
   };
 
   // Note: Cookie forwarding for server-side requests should be handled at the page/component level
-  // Client-side requests will automatically include cookies via fetch credentials 
+  // Client-side requests will automatically include cookies via fetch credentials
 
   const config = {
     ...options,
@@ -33,8 +33,10 @@ async function apiRequest(endpoint, options = {}) {
     credentials: "include", // Automatically include cookies in requests
     cache: options.cache ?? "no-store",
     // Stringify body if it's not FormData
-    body: options.body 
-      ? (isFormData ? options.body : JSON.stringify(options.body))
+    body: options.body
+      ? isFormData
+        ? options.body
+        : JSON.stringify(options.body)
       : undefined,
   };
 
@@ -72,7 +74,24 @@ export const authAPI = {
   register: async (userData) => {
     return apiRequest("/auth/register", {
       method: "POST",
-      body: JSON.stringify(userData),
+      body: userData,
+      credentials: "include",
+    });
+  },
+
+  /**
+   * Google OAuth - Initiate authentication
+   */
+  googleAuth: () => {
+    window.location.href = `${API_BASE_URL}/auth/google`;
+  },
+
+  /**
+   * Google OAuth - Callback handler
+   */
+  googleCallback: async (code) => {
+    return apiRequest(`/auth/google/callback?code=${code}`, {
+      method: "GET",
       credentials: "include",
     });
   },
@@ -83,7 +102,7 @@ export const authAPI = {
   login: async (credentials) => {
     return apiRequest("/auth/login", {
       method: "POST",
-      body: JSON.stringify(credentials),
+      body: credentials,
       credentials: "include",
     });
   },
@@ -114,7 +133,7 @@ export const authAPI = {
   updateProfile: async (userData) => {
     return apiRequest("/auth/update-profile", {
       method: "PUT",
-      body: JSON.stringify(userData),
+      body: userData,
       credentials: "include",
     });
   },
@@ -135,7 +154,7 @@ export const authAPI = {
   forgotPassword: async (email) => {
     return apiRequest("/auth/forgot-password", {
       method: "POST",
-      body: JSON.stringify({ email }),
+      body: email,
     });
   },
 
@@ -145,7 +164,7 @@ export const authAPI = {
   resetPassword: async (token, password) => {
     return apiRequest("/auth/reset-password", {
       method: "POST",
-      body: JSON.stringify({ token, password }),
+      body: { token, password },
       credentials: "include",
     });
   },
@@ -156,7 +175,7 @@ export const authAPI = {
   updatePassword: async (currentPassword, newPassword) => {
     return apiRequest("/auth/update-password", {
       method: "PUT",
-      body: JSON.stringify({ currentPassword, newPassword }),
+      body: { currentPassword, newPassword },
       credentials: "include",
     });
   },
@@ -184,6 +203,12 @@ export const productsAPI = {
       method: "GET",
     });
   },
+  getPrdoductDetails: async (slug) => {
+    return apiRequest(`/products/admin/products/${slug}`, {
+      method: "GET",
+      credentials: "include",
+    });
+  },
 
   create: async (productData) => {
     return apiRequest("/products/admin/products", {
@@ -196,7 +221,7 @@ export const productsAPI = {
   edit: async (id, productData) => {
     return apiRequest(`/products/admin/products/${id}`, {
       method: "PUT",
-      body: JSON.stringify(productData),
+      body: productData,
       credentials: "include",
     });
   },
@@ -242,7 +267,6 @@ export const ordersAPI = {
    * Get order by ID or order number
    */
   getById: async (id) => {
-    console.log("ordersAPI.getById - Fetching order with ID:", id);
     return apiRequest(`/orders/${id}`, {
       method: "GET",
       credentials: "include",
@@ -277,14 +301,14 @@ export const categoriesAPI = {
   create: async (categoryData) => {
     return apiRequest("/admin/categories/create", {
       method: "POST",
-      body: JSON.stringify(categoryData),
+      body: categoryData,
       credentials: "include",
     });
   },
   edit: async (id, categoryData) => {
     return apiRequest(`/admin/categories/edit/${id}`, {
       method: "PUT",
-      body: JSON.stringify(categoryData),
+      body: categoryData,
       credentials: "include",
     });
   },

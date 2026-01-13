@@ -25,8 +25,6 @@ export default function OrderedProducts({
   order
 }) {
 
-console.log("Order:", order);
-
   const {
     id,
     createdAt,

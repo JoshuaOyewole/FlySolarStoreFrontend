@@ -7,13 +7,24 @@ export async function generateMetadata({ params }) {
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/${slug}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/admin/products/${slug}`,
       {
-        next: { revalidate: 300 }, // Cache for 5 minutes
+        credentials: "include",
       }
     );
 
-    if (!response.ok) return notFound();
+    if (!response.ok)
+      return {
+        title: "Product Not Found - Flysolarstore",
+        description:
+          "Flysolarstore is your go-to online store for high-quality solar products. Explore our wide range of solar panels, inverters, batteries, and accessories designed to meet all your renewable energy needs. Shop now and embrace sustainable living with Flysolarstore!",
+        authors: [
+          {
+            name: "Orisfina Tech",
+            url: "https://orisfinatech.com.ng",
+          },
+        ],
+      };
 
     const res = await response.json();
     const product = res.data;
@@ -47,9 +58,10 @@ export async function generateMetadata({ params }) {
 export const fetchProductBySlug = async (slug) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/${slug}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/admin/products/${slug}`,
       {
-        next: { revalidate: 300 }, // Cache for 5 minutes
+        // next: { revalidate: 300 }, // Cache for 5 minutes
+        credentials: "include",
       }
     );
 
@@ -65,7 +77,9 @@ export const fetchProductBySlug = async (slug) => {
 
 export default async function ProductEdit({ params }) {
   const { slug } = await params;
+
   const product = await fetchProductBySlug(slug);
+ 
 
   if (!product) {
     return notFound();

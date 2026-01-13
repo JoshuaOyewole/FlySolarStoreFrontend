@@ -20,8 +20,8 @@ export async function generateMetadata({ params }) {
       title: `Order ${order.orderNumber} - FlySolarStore E-Commerce shop`,
       description: "View your order details and status",
       authors: [{
-        name: "UI-LIB",
-        url: "https://ui-lib.com"
+        name: "Orisfina Tech",
+        url: "https://orisfinatech.com.ng"
       }],
       keywords: ["e-commerce", "order details", "next.js", "react"]
     };

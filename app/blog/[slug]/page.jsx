@@ -72,7 +72,6 @@ export default async function BlogDetailPage({ params }) {
   const { slug } = await params;
   const res = await fetchArticleBySlug(slug);
 
-
   if (!res) {
     return (
       <Box sx={{ bgcolor: "background.default", minHeight: "100vh", py: 8 }}>
@@ -183,7 +182,7 @@ export default async function BlogDetailPage({ params }) {
                       formatDate(new Date(res?.createdAt), "MMMM dd, yyyy")}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    • {res?.readTime} Mins
+                    • {res?.readTime} Mins Read
                   </Typography>
                 </Stack>
               </Box>
@@ -283,6 +282,11 @@ export default async function BlogDetailPage({ params }) {
                   display:"flex",
                   flexDirection:"column",
                   rowGap:1,
+                  fontSize:{
+                    xs:"14px",
+                    md:"16px",
+                    lg:"18px"
+                  },
                   lineHeight:1.8
                 }}  />
 
@@ -309,7 +313,7 @@ export default async function BlogDetailPage({ params }) {
             </Card>
 
             {/* Author Bio */}
-            <Card
+       {/*      <Card
               elevation={0}
               sx={{
                 mt: 4,
@@ -333,12 +337,12 @@ export default async function BlogDetailPage({ params }) {
                   <Typography variant="body2" color="text.secondary" paragraph>
                     {res?.author?.bio}
                   </Typography>
-                  {/*   <Button variant="outlined" size="small">
+                   <Button variant="outlined" size="small">
                     View Profile
-                  </Button> */}
+                  </Button> 
                 </Box>
               </Stack>
-            </Card>
+            </Card> */}
           </Grid>
 
           {/* Sidebar */}

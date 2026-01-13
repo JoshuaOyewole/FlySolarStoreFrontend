@@ -66,68 +66,74 @@ export default function LoginPageView() {
     }
   });
 
+
+
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmitForm}>
-      {error && (
-        <div
-          style={{
-            padding: "12px",
-            marginBottom: "16px",
-            backgroundColor: "#ffebee",
-            color: "#c62828",
-            borderRadius: "4px",
-            fontSize: "14px",
-          }}
-        >
-          {error}
+    <>
+      <FormProvider methods={methods} onSubmit={handleSubmitForm}>
+        {error && (
+          <div
+            style={{
+              padding: "12px",
+              marginBottom: "16px",
+              backgroundColor: "#ffebee",
+              color: "#c62828",
+              borderRadius: "4px",
+              fontSize: "14px",
+            }}
+          >
+            {error}
+          </div>
+        )}
+
+        <div className="mb-1">
+          <Label>Email</Label>
+          <TextField
+            fullWidth
+            name="email"
+            type="email"
+            size="medium"
+            placeholder="exmple@mail.com"
+          />
         </div>
-      )}
 
-      <div className="mb-1">
-        <Label>Email or Phone Number</Label>
-        <TextField
+        <div className="mb-2">
+          <Label>Password</Label>
+          <TextField
+            fullWidth
+            size="medium"
+            name="password"
+            autoComplete="on"
+            placeholder="*********"
+            type={visiblePassword ? "text" : "password"}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <EyeToggleButton
+                    show={visiblePassword}
+                    click={togglePasswordVisible}
+                  />
+                ),
+              },
+            }}
+          />
+        </div>
+
+        <Button
           fullWidth
-          name="email"
-          type="email"
-          size="medium"
-          placeholder="exmple@mail.com"
-        />
-      </div>
+          size="large"
+          style={{ backgroundColor: "#CC5500" }}
+          type="submit"
+          color="primary"
+          variant="contained"
+          loading={isSubmitting}
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Logging in..." : "Login"}
+        </Button>
+      </FormProvider>
 
-      <div className="mb-2">
-        <Label>Password</Label>
-        <TextField
-          fullWidth
-          size="medium"
-          name="password"
-          autoComplete="on"
-          placeholder="*********"
-          type={visiblePassword ? "text" : "password"}
-          slotProps={{
-            input: {
-              endAdornment: (
-                <EyeToggleButton
-                  show={visiblePassword}
-                  click={togglePasswordVisible}
-                />
-              ),
-            },
-          }}
-        />
-      </div>
-
-      <Button
-        fullWidth
-        size="large"
-        style={{ backgroundColor: "#CC5500" }}
-        type="submit"
-        color="primary"
-        variant="contained"
-        loading={isSubmitting}
-        disabled={isSubmitting}
-      >
-        {isSubmitting ? "Logging in..." : "Login"}
-      </Button>
-    </FormProvider>
+     
+    </>
   );
 }

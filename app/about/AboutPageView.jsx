@@ -92,7 +92,7 @@ export default function AboutPageView() {
               </Typography>
               <Button
                 component={Link}
-                href="/products/search"
+                href="/products"
                 variant="contained"
                 size="large"
                 sx={{
@@ -369,7 +369,7 @@ export default function AboutPageView() {
             <ButtonBox>
               <Button
                 component={Link}
-                href="/products/search"
+                href="/products"
                 variant="contained"
                 size="large"
                 sx={{

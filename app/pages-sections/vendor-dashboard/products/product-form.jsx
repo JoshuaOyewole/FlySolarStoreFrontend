@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -21,6 +21,7 @@ import Typography from "@mui/material/Typography";
 import DropZone from "../../../components/DropZone";
 import FlexBox from "../../../components/flex-box/flex-box";
 import { FormProvider, TextField } from "../../../components/form-hook";
+import RichTextEditor from "../../../components/RichTextEditor";
 
 // STYLED COMPONENTS
 import { UploadImageBox, StyledClear } from "../styles";
@@ -182,8 +183,29 @@ export default function ProductForm() {
     formData.append("price", values.price);
     formData.append("summary", values.summary);
     formData.append("description", values.description);
-    formData.append("size", values.size || "");
-    formData.append("colors", values.colors || "");
+    
+    // Convert sizes from comma-separated string to array
+    if (values.size) {
+      const sizesArray = values.size
+        .split(',')
+        .map(size => size.trim())
+        .filter(size => size.length > 0);
+      formData.append("size", JSON.stringify(sizesArray));
+    } else {
+      formData.append("size", "");
+    }
+    
+    // Convert colors from comma-separated string to array
+    if (values.colors) {
+      const colorsArray = values.colors
+        .split(',')
+        .map(color => color.trim())
+        .filter(color => color.length > 0);
+      formData.append("colors", JSON.stringify(colorsArray));
+    } else {
+      formData.append("colors", "");
+    }
+    
     formData.append("discount", values.discount || 0);
     formData.append("category", values.category);
     formData.append("catelogue", values.catalogue);
@@ -331,15 +353,21 @@ export default function ProductForm() {
           </Grid>
 
           <Grid size={12}>
-            <TextField
-              rows={6}
-              multiline
-              fullWidth
-              color="info"
-              size="medium"
+            <Typography variant="subtitle1" fontWeight={600} mb={1}>
+              Description *
+            </Typography>
+            <Controller
               name="description"
-              label="Description"
-              placeholder="Full Product Description"
+              control={methods.control}
+              render={({ field, fieldState: { error } }) => (
+                <RichTextEditor
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={!!error}
+                  helperText={error?.message}
+                  placeholder="Enter full product description..."
+                />
+              )}
             />
           </Grid>
 

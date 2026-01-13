@@ -98,17 +98,21 @@ export default function AccountPopover() {
             sx={{
               fontSize: 12,
               color: "grey.500",
+              textTransform: "capitalize",
             }}
           >
-            Admin
+            {user?.role || "Admin"}
           </Typography>
         </Box>
 
         <Divider />
-        <MenuItem href="/profile">Profile</MenuItem>
-        <MenuItem href="/orders">My Orders</MenuItem>
-        <MenuItem href="/settings">Settings</MenuItem>
-        <Divider />
+        
+        {/* Show Profile, Orders, and Settings only for non-admin users */}
+        {user?.role !== "admin" && <MenuItem href="/profile">Profile</MenuItem>}
+        {user?.role !== "admin" && <MenuItem href="/orders">My Orders</MenuItem>}
+        {user?.role !== "admin" && <MenuItem href="/settings">Settings</MenuItem>}
+        {user?.role !== "admin" && <Divider />}
+        
         <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
       </Menu>
     </div>

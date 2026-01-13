@@ -15,10 +15,12 @@ import { format, isValid } from "date-fns";
 export default function BlogCard1({
   image,
   title,
-  slug,
+  href,
   date,
   description,
 }) {
+
+
   return (
     <RootStyle>
       <ImageBox>
@@ -40,14 +42,14 @@ export default function BlogCard1({
       </ImageBox>
 
       <div className="content">
-        <Link href={`/blog/${slug}`} className="title-link">
+        <Link href={`/blog/${href}`} className="title-link">
           <Typography variant="body1" fontWeight={600} fontSize={18}>
             {title}
           </Typography>
         </Link>
 
         <p className="description">{description}</p>
-        <NavLink3 text="Read More" href={`/blog/${slug}`} />
+        <NavLink3 text="Read More" href={`/blog/${href}`} />
       </div>
     </RootStyle>
   );

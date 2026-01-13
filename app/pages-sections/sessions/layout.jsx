@@ -1,7 +1,7 @@
 
 // LOCAL CUSTOM COMPONENTS
 import LogoWithTitle from "./components/logo-title";
-import SocialButtons from "./components/social-buttons";
+//import SocialButtons from "./components/social-buttons";
 
 // GLOBAL CUSTOM COMPONENTS
 import FlexRowCenter from "../../components/flex-box/flex-row-center";
@@ -25,7 +25,7 @@ export default function AuthLayout({
 
         {children}
 
-        <SocialButtons />
+    {/*     <SocialButtons /> */}
 
         {/* RENDER BOTTOM CONTENT BASED ON CONDITION */}
         {bottomContent}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -19,6 +19,7 @@ import Typography from "@mui/material/Typography";
 import DropZone from "../../../components/DropZone";
 import FlexBox from "../../../components/flex-box/flex-box";
 import { FormProvider, TextField } from "../../../components/form-hook";
+import RichTextEditor from "../../../components/RichTextEditor";
 
 // STYLED COMPONENTS
 import { UploadImageBox, StyledClear } from "../styles";
@@ -186,7 +187,25 @@ export default function EditProductForm({ product }) {
     // Add form fields
     Object.keys(values).forEach((key) => {
       if (values[key] !== null && values[key] !== undefined) {
-        formData.append(key, values[key]);
+        // Convert colors from comma-separated string to array
+        if (key === 'colors' && values[key]) {
+          const colorsArray = values[key]
+            .split(',')
+            .map(color => color.trim())
+            .filter(color => color.length > 0);
+          formData.append(key, JSON.stringify(colorsArray));
+        } 
+        // Convert sizes from comma-separated string to array
+        else if (key === 'sizes' && values[key]) {
+          const sizesArray = values[key]
+            .split(',')
+            .map(size => size.trim())
+            .filter(size => size.length > 0);
+          formData.append(key, JSON.stringify(sizesArray));
+        } 
+        else {
+          formData.append(key, values[key]);
+        }
       }
     });
 
@@ -345,15 +364,21 @@ export default function EditProductForm({ product }) {
           </Grid>
 
           <Grid size={12}>
-            <TextField
-              rows={6}
-              multiline
-              fullWidth
-              color="info"
-              size="medium"
+            <Typography variant="subtitle1" fontWeight={600} mb={1}>
+              Description
+            </Typography>
+            <Controller
               name="description"
-              label="Description"
-              placeholder="Full Product Description"
+              control={methods.control}
+              render={({ field, fieldState: { error } }) => (
+                <RichTextEditor
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={!!error}
+                  helperText={error?.message}
+                  placeholder="Enter full product description..."
+                />
+              )}
             />
           </Grid>
           {/* Thumbnail Upload */}

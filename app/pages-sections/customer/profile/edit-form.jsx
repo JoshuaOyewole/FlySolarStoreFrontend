@@ -35,7 +35,8 @@ const validationSchema = yup.object().shape({
 // ==============================================================
 
 export default function ProfileEditForm({
-  user
+  user,
+  avatarFile
 }) {
   const router = useRouter();
   const { updateUserProfile } = useAuth();
@@ -66,16 +67,20 @@ export default function ProfileEditForm({
     try {
       setError("");
       
-      // Transform data to match backend API
-      const updateData = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        phone: values.contact,
-        dateOfBirth: values.birthOfDate?.toISOString()
-      };
+      // Create FormData for multipart/form-data upload
+      const formData = new FormData();
+      formData.append('firstName', values.firstName);
+      formData.append('lastName', values.lastName);
+      formData.append('email', values.email);
+      formData.append('phone', values.contact || '');
+      formData.append('dateOfBirth', values.birthOfDate?.toISOString() || '');
       
-      const response = await authAPI.updateProfile(updateData);
+      // Add avatar file if provided
+      if (avatarFile) {
+        formData.append('avatar', avatarFile);
+      }
+      
+      const response = await authAPI.updateProfile(formData);
       
       if (response.success) {
         // Update the user in auth context

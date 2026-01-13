@@ -84,7 +84,7 @@ export const AuthProvider = ({ children }) => {
   const logout = useCallback(async () => {
     try {
       const res = await authAPI.logout();
-      console.log("Logout response:", res);
+      //console.log("Logout response:", res);
     } catch (error) {
       console.error("Logout error:", error);
     } finally {

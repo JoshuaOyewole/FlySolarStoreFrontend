@@ -5,7 +5,10 @@ export default function ProductDescription({ productDescription }) {
   return (
     <Box
       sx={{
-        width: { xs: "100%", md: "80%",lg:"70%" },
+        margin: {
+          lg: "0 auto",
+        },
+        width: { xs: "100%", lg: "70%" },
       }}
     >
       <Typography

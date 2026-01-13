@@ -26,6 +26,7 @@ export default async function Section8() {
   let blogs = await fetchArticles();
 
   if (!blogs || blogs.length === 0) return null;
+
   return (
     <Container>
       <SectionHeader
