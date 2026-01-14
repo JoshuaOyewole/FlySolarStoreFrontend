@@ -1,4 +1,3 @@
-
 import { Geist } from "next/font/google";
 /* import { GoogleAnalytics } from "@next/third-parties/google"; */
 /* export const geist = Geist({
@@ -30,7 +29,7 @@ import QueryProvider from "./components/Providers/QueryProvider";
 //import "i18n";
 import { ToastContainer } from "react-toastify";
 import LayoutWrapper from "./LayoutWrapper";
-
+import { Analytics } from "@vercel/analytics/next";
 // ==============================================================
 
 export default function RootLayout({ children, modal }) {
@@ -51,6 +50,7 @@ export default function RootLayout({ children, modal }) {
           </CartProvider>
         </AuthProvider>
         <ToastContainer />
+        <Analytics />
         {/* <GoogleAnalytics gaId="" /> */}
       </body>
     </html>
