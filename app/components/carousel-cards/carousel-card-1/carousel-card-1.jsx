@@ -20,7 +20,7 @@ export default function CarouselCard1({
   buttonText,
   buttonLink,
   description,
-  buttonColor ="#CC5500",
+  buttonColor = "#CC5500",
   //buttonColor = "primary",
 }) {
   return (
@@ -33,7 +33,9 @@ export default function CarouselCard1({
             xs: 12,
           }}
         >
-          <h1 className="title" style={{color:"#CC5500"}}>{title}</h1>
+          <h1 className="title" style={{ color: "#CC5500" }}>
+            {title}
+          </h1>
           <p className="description">{description}</p>
 
           <Button
@@ -41,7 +43,7 @@ export default function CarouselCard1({
             disableElevation
             variant="contained"
             //color={buttonColor}
-            style={{backgroundColor:buttonColor, color:"#fff"}}
+            style={{ backgroundColor: buttonColor, color: "#fff" }}
             LinkComponent={Link}
             href={buttonLink || "#"}
             className="button-link"
@@ -54,6 +56,12 @@ export default function CarouselCard1({
           size={{
             md: 6,
             xs: 12,
+          }}
+          sx={{
+            display: {
+              xs: "none",
+              md: "block",
+            },
           }}
         >
           <div className="img-wrapper">

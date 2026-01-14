@@ -48,6 +48,7 @@ export const ImageWrapper = styled("div")(({ theme }) => ({
   textAlign: "center",
   position: "relative",
   placeItems: "center",
+  backgroundColor: "white",
 
   [theme.breakpoints.down("sm")]: {
     minWidth: 385, // Ensure minimum width on mobile
@@ -103,6 +104,7 @@ export const ContentWrapper = styled("div")(({ theme }) => ({
   paddingInline: "1rem",
   paddingBottom: ".8rem",
   marginTop: "-4rem",
+  backgroundColor: "white",
   ".title": {
     cursor: "pointer",
     marginBottom: ".2rem",
