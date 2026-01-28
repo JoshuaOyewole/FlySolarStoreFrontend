@@ -10,7 +10,7 @@ const categories = [
 ];
 const footerContact = {
   phone: "08167360193",
-  email: "contact@flysolarstore.com",
+  email: "flytechnologyltd@gmail.com",
   address: "Shop B427 Upstairs, Alaba International Market, Lagos.",
 };
 const footerAboutLinks = [
@@ -25,7 +25,7 @@ const footerAboutLinks = [
   },
 ];
 const footerSocialLinks = {
-  facebook: "https://www.facebook.com/flysolarstore/",
+  facebook: "https://www.facebook.com/Flysolartech886",
   twitter: "https://twitter.com/flysolarstore/",
   instagram: "https://www.instagram.com/flysolarstore/",
   youtube: "https://www.instagram.com/flysolarstore/",
